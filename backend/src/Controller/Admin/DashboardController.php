@@ -8,38 +8,48 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 
+// ✅ Nouvelle norme EasyAdmin 5 pour définir la route
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+    /**
+     * Cette méthode définit ce qui s'affiche sur la page d'accueil de l'admin.
+     */
     public function index(): Response
     {
-        return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // return $this->redirectToRoute('admin_user_index');
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirectToRoute('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        // return $this->render('some/path/my-dashboard.html.twig');
+        // On affiche le layout de base pour voir ton menu et ton titre immédiatement
+        return $this->render('@EasyAdmin/page/content.html.twig');
     }
 
+    /**
+     * Configuration visuelle du Dashboard (Haut de page).
+     */
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Html');
+            ->setTitle('<b>Corp</b>Starter <small>v1.0</small>')
+            // Note : Le mode sombre est activé par défaut dans cette version.
+            ->setFaviconPath('favicon.ico');
     }
 
+    /**
+     * Configuration du menu latéral (Sidebar).
+     */
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkTo(SomeCrudController::class, 'The Label', 'fas fa-list');
+        yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
+
+        yield MenuItem::section('L\'Entreprise');
+        // 🛑 Les lignes ci-dessous sont en commentaire car elles nécessitent 
+        // que ton collègue (Lead Backend) ait créé les entités User et Project.
+        // yield MenuItem::linkToCrud('Collaborateurs', 'fas fa-users', User::class);
+        
+        yield MenuItem::section('Innovation');
+        // yield MenuItem::linkToCrud('Projets soumis', 'fas fa-lightbulb', Project::class);
+
+        yield MenuItem::section('Paramètres');
+        // 🛑 On commente le logout tant que le système de sécurité (firewall) 
+        // n'est pas configuré par le backend pour éviter l'erreur 500.
+        // yield MenuItem::linkToLogout('Déconnexion', 'fa fa-sign-out');
     }
 }
