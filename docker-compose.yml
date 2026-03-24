@@ -1,7 +1,7 @@
 services:
   database:
     image: mysql:lts
-    platform: linux/amd64 # LE SAUVEUR POUR LE MAC M1 DE TA COLLÈGUE !
+    platform: linux/amd64 
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: corpstarter
