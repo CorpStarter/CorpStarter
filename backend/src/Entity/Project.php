@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ORM\HasLifecycleCallbacks] // Pour la date auto
 class Project
 {
     #[ORM\Id]
@@ -21,13 +22,15 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
+    // Correction : Precision 15 pour accepter des millions (ex: 999 999 999 999.99)
+    #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 2, nullable: true)]
     private ?string $requested_budget = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $illustration_path = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
+    // Correction : Precision 15 ici aussi
+    #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 2, nullable: true)]
     private ?string $allocated_budget = null;
 
     #[ORM\Column]
@@ -49,7 +52,18 @@ class Project
     public function __construct()
     {
         $this->requester = new ArrayCollection();
+        $this->creation_date = new \DateTime(); // Date par défaut
     }
+
+    #[ORM\PrePersist]
+    public function setCreationDateValue(): void
+    {
+        if ($this->creation_date === null) {
+            $this->creation_date = new \DateTime();
+        }
+    }
+
+    // --- GETTERS & SETTERS --- (Gardés tels quels)
 
     public function getId(): ?int
     {
@@ -64,7 +78,6 @@ class Project
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -76,7 +89,6 @@ class Project
     public function setRequestedBudget(?string $requested_budget): static
     {
         $this->requested_budget = $requested_budget;
-
         return $this;
     }
 
@@ -88,7 +100,6 @@ class Project
     public function setIllustrationPath(?string $illustration_path): static
     {
         $this->illustration_path = $illustration_path;
-
         return $this;
     }
 
@@ -100,7 +111,6 @@ class Project
     public function setAllocatedBudget(?string $allocated_budget): static
     {
         $this->allocated_budget = $allocated_budget;
-
         return $this;
     }
 
@@ -112,7 +122,6 @@ class Project
     public function setCreationDate(\DateTime $creation_date): static
     {
         $this->creation_date = $creation_date;
-
         return $this;
     }
 
@@ -129,14 +138,12 @@ class Project
         if (!$this->requester->contains($requester)) {
             $this->requester->add($requester);
         }
-
         return $this;
     }
 
     public function removeRequester(Users $requester): static
     {
         $this->requester->removeElement($requester);
-
         return $this;
     }
 
@@ -148,7 +155,6 @@ class Project
     public function setApprover(?Users $approver): static
     {
         $this->approver = $approver;
-
         return $this;
     }
 
@@ -160,7 +166,11 @@ class Project
     public function setStatus(?ProjectStatus $status): static
     {
         $this->status = $status;
-
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->name;
     }
 }

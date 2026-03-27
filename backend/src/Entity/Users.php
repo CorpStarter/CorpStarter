@@ -7,11 +7,13 @@ use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-#[ORM\HasLifecycleCallbacks] // Indispensable pour automatiser la date
-class Users
+#[ORM\HasLifecycleCallbacks]
+class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -60,28 +62,56 @@ class Users
     public function __construct()
     {
         $this->projects = new ArrayCollection();
-        $this->creation_date = new \DateTime(); // Date par défaut à l'instanciation
-        $this->email_confirmed = false; // Sécurité pour éviter le Null
-        $this->terms_accepted = false;  // Sécurité pour éviter le Null
+        $this->creation_date = new \DateTime();
+        $this->email_confirmed = false;
+        $this->terms_accepted = false;
     }
 
-    /**
-     * Permet à EasyAdmin d'afficher l'utilisateur dans les listes déroulantes
-     */
     public function __toString(): string
     {
         return $this->username ?? $this->email ?? 'Utilisateur n°' . $this->id;
     }
 
-    /**
-     * S'exécute automatiquement juste avant l'insertion en base de données
-     */
     #[ORM\PrePersist]
     public function setCreationDateValue(): void
     {
         if ($this->creation_date === null) {
             $this->creation_date = new \DateTime();
         }
+    }
+
+    // --- MÉTHODES OBLIGATOIRES POUR LA SÉCURITÉ SYMFONY ---
+
+    /**
+     * Retourne le mot de passe hashé
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password_hash;
+    }
+
+    /**
+     * Retourne l'identifiant unique (ici l'email)
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * Retourne les rôles de l'utilisateur
+     */
+    public function getRoles(): array
+    {
+        // On donne ROLE_USER à tout le monde par défaut
+        return ['ROLE_USER'];
+    }
+
+    /**
+     * Supprime les données sensibles en clair (non utilisé ici)
+     */
+    public function eraseCredentials(): void
+    {
     }
 
     // --- GETTERS ET SETTERS ---
