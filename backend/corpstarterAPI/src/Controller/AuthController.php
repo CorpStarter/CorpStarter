@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Users;
+use App\Entity\UserTypes;
 use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,16 +40,29 @@ class AuthController extends AbstractController
                 return new JsonResponse(['error' => 'User already exists'], 409);
             }
 
+            // Déterminer le type d'utilisateur
+            $userTypeRepository = $this->entityManager->getRepository(UserTypes::class);
+            $adminType = $userTypeRepository->findOneBy(['name' => 'Admin']);
+            $userType = $userTypeRepository->findOneBy(['name' => 'User']);
+
+            if (!$adminType || !$userType) {
+                return new JsonResponse(['error' => 'User types not properly configured'], 500);
+            }
+
+            $userCount = $this->usersRepository->count([]);
+            $assignedUserType = $userCount === 0 ? $adminType : $userType;
+
             // Créer un nouvel utilisateur
             $user = new Users();
             $user->setUsername($data['username']);
             $user->setEmail($data['email']);
             $user->setFirstName($data['first_name']);
             $user->setLastName($data['last_name']);
-            $user->setPasswordHash($this->passwordHasher->hashPassword($user, $data['password']));
+            $user->setPasswordHash(password_hash($data['password'], PASSWORD_DEFAULT));
             $user->setEmailConfirmed(false);
             $user->setTermsAccepted($data['terms_accepted'] ?? false);
-            $user->setCreationDate(new \DateTime());
+            $user->setCreationDate();
+            $user->setUserType($assignedUserType);
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();
@@ -83,7 +97,7 @@ class AuthController extends AbstractController
                 return new JsonResponse(['error' => 'Invalid credentials'], 401);
             }
 
-            if (!$this->passwordHasher->isPasswordValid($user, $data['password'])) {
+            if (!password_verify($data['password'], $user->getPasswordHash())) {
                 return new JsonResponse(['error' => 'Invalid credentials'], 401);
             }
 

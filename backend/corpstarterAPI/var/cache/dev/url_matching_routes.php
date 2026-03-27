@@ -15,6 +15,8 @@ return [
             [['_route' => 'projects_list', '_controller' => 'App\\Controller\\ProjectController::list'], null, ['GET' => 0], null, false, false, null],
             [['_route' => 'projects_create', '_controller' => 'App\\Controller\\ProjectController::create'], null, ['POST' => 0], null, false, false, null],
         ],
+        '/api/admin/project-status' => [[['_route' => 'api_admin_create_project_status', '_controller' => 'App\\Controller\\AdminController::createProjectStatus'], null, ['POST' => 0], null, false, false, null]],
+        '/api/admin/user-types' => [[['_route' => 'api_admin_create_user_types', '_controller' => 'App\\Controller\\AdminController::createUserTypes'], null, ['POST' => 0], null, false, false, null]],
         '/api/auth/signup' => [[['_route' => 'api_auth_signup', '_controller' => 'App\\Controller\\AuthController::signup'], null, ['POST' => 0], null, false, false, null]],
         '/api/auth/signin' => [[['_route' => 'api_auth_signin', '_controller' => 'App\\Controller\\AuthController::signin'], null, ['POST' => 0], null, false, false, null]],
         '/api/auth/verify-email' => [[['_route' => 'api_auth_verify_email', '_controller' => 'App\\Controller\\AuthController::verifyEmail'], null, ['POST' => 0], null, false, false, null]],

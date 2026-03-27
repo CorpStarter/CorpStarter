@@ -242,6 +242,9 @@
       <parameter key="jsonld" type="collection">
         <parameter>application/ld+json</parameter>
       </parameter>
+      <parameter key="json" type="collection">
+        <parameter>application/json</parameter>
+      </parameter>
     </parameter>
     <parameter key="api_platform.patch_formats" type="collection">
       <parameter key="json" type="collection">
@@ -422,6 +425,7 @@
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
       <argument type="service" id="App\Repository\ProjectRepository"/>
       <argument type="service" id="App\Repository\UsersRepository"/>
+      <argument type="service" id="App\Repository\ProjectStatusRepository"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.TJNRSaV.App\Controller\ProjectController"/>
       </call>

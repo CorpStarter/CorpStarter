@@ -109,9 +109,10 @@ class Project
         return $this->creation_date;
     }
 
-    public function setCreationDate(\DateTime $creation_date): static
+    public function setCreationDate(): static
     {
-        $this->creation_date = $creation_date;
+        date_default_timezone_set('Europe/Paris');
+        $this->creation_date = new \DateTime();
 
         return $this;
     }

@@ -1,0 +1,237 @@
+{
+  "info": {
+    "name": "Corpstarter API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "AdminController",
+      "item": [
+        {
+          "name": "Change Project Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/projects/:id/status?token=your_token_here",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "projects", ":id", "status"],
+              "query": [
+                { "key": "token", "value": "your_token_here" }
+              ],
+              "variable": [
+                { "key": "id", "value": "1" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"admin_id\": 1,\n  \"status_id\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Allocate Budget",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/projects/:id/budget?token=your_token_here",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "projects", ":id", "budget"],
+              "query": [
+                { "key": "token", "value": "your_token_here" }
+              ],
+              "variable": [
+                { "key": "id", "value": "1" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"admin_id\": 1,\n  \"allocated_budget\": 5000\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Project Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/project-status?token=your_token_here",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "project-status"],
+              "query": [
+                { "key": "token", "value": "your_token_here" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status_name\": \"New Status\",\n  \"validated\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Create User Types",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/user-types?token=your_token_here",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "user-types"],
+              "query": [
+                { "key": "token", "value": "your_token_here" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New User Type\",\n  \"can_accept_project\": true\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AuthController",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/signup",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "signup"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\",\n  \"first_name\": \"Test\",\n  \"last_name\": \"User\",\n  \"terms_accepted\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Signin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/signin",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "signin"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/verify-email",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "verify-email"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "ProjectController",
+      "item": [
+        {
+          "name": "List Projects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/projects?token=your_token_here",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"],
+              "query": [
+                { "key": "token", "value": "your_token_here" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects?token=your_token_here",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"],
+              "query": [
+                { "key": "token", "value": "your_token_here" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Project\",\n  \"user_id\": 1,\n  \"requested_budget\": 10000\n}"
+            }
+          }
+        },
+        {
+          "name": "Edit Project",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", ":id"],
+              "variable": [
+                { "key": "id", "value": "1" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Project\",\n  \"requested_budget\": 15000\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", ":id"],
+              "variable": [
+                { "key": "id", "value": "1" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

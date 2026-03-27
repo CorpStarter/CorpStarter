@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Entity\Users;
 use App\Repository\ProjectRepository;
 use App\Repository\UsersRepository;
+use App\Repository\ProjectStatusRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,8 @@ class ProjectController extends AbstractController
     public function __construct(
         private EntityManagerInterface $entityManager,
         private ProjectRepository $projectRepository,
-        private UsersRepository $usersRepository
+        private UsersRepository $usersRepository,
+        private ProjectStatusRepository $projectStatusRepository
     ) {}
 
     #[Route('', name: 'list', methods: ['GET'])]
@@ -92,13 +94,15 @@ class ProjectController extends AbstractController
                 return new JsonResponse(['error' => 'User not authorized to create projects'], 403);
             }
 
+            
+            
             $project = new Project();
             $project->setName($data['name']);
             $project->setRequestedBudget($data['requested_budget'] ?? null);
             $project->setIllustrationPath($data['illustration_path'] ?? null);
-            $project->setCreationDate(new \DateTime());
+            $project->setCreationDate();
             $project->addRequester($user);
-
+            $project->setStatus($this->projectStatusRepository->findOneBy(['status_name' => 'Pending']));
             $this->entityManager->persist($project);
             $this->entityManager->flush();
 
@@ -142,12 +146,7 @@ class ProjectController extends AbstractController
                 return new JsonResponse(['error' => 'Project not found'], 404);
             }
 
-            $user = $this->usersRepository->find($userId);
-            if (!$user) {
-                return new JsonResponse(['error' => 'User not found'], 404);
-            }
-
-            // Vérifier que l'utilisateur est propriétaire du projet
+            // Use the token-verified user for ownership checks
             if (!$project->getRequester()->contains($user)) {
                 return new JsonResponse(['error' => 'Unauthorized'], 403);
             }
@@ -208,12 +207,7 @@ class ProjectController extends AbstractController
                 return new JsonResponse(['error' => 'Project not found'], 404);
             }
 
-            $user = $this->usersRepository->find($userId);
-            if (!$user) {
-                return new JsonResponse(['error' => 'User not found'], 404);
-            }
-
-            // Vérifier que l'utilisateur est propriétaire du projet
+            // Use the token-verified user for ownership checks
             if (!$project->getRequester()->contains($user)) {
                 return new JsonResponse(['error' => 'Unauthorized'], 403);
             }
