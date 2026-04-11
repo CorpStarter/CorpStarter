@@ -613,24 +613,15 @@ return [PHP_INT_MAX, new class() implements \Symfony\Component\Cache\Traits\Cach
                     'jsonld' => [
                         'application/ld+json',
                     ],
-                    'json' => [
-                        'application/json',
-                    ],
                 ],
                 6 => [
                     'jsonld' => [
                         'application/ld+json',
                     ],
-                    'json' => [
-                        'application/json',
-                    ],
                 ],
                 8 => [
                     'jsonld' => [
                         'application/ld+json',
-                    ],
-                    'json' => [
-                        'application/json',
                     ],
                 ],
                 10 => [
@@ -642,9 +633,6 @@ return [PHP_INT_MAX, new class() implements \Symfony\Component\Cache\Traits\Cach
                     'jsonld' => [
                         'application/ld+json',
                     ],
-                    'json' => [
-                        'application/json',
-                    ],
                 ],
             ],
             'outputFormats' => [
@@ -652,40 +640,25 @@ return [PHP_INT_MAX, new class() implements \Symfony\Component\Cache\Traits\Cach
                     'jsonld' => [
                         'application/ld+json',
                     ],
-                    'json' => [
-                        'application/json',
-                    ],
                 ],
                 6 => [
                     'jsonld' => [
                         'application/ld+json',
-                    ],
-                    'json' => [
-                        'application/json',
                     ],
                 ],
                 8 => [
                     'jsonld' => [
                         'application/ld+json',
                     ],
-                    'json' => [
-                        'application/json',
-                    ],
                 ],
                 10 => [
                     'jsonld' => [
                         'application/ld+json',
                     ],
-                    'json' => [
-                        'application/json',
-                    ],
                 ],
                 13 => [
                     'jsonld' => [
                         'application/ld+json',
-                    ],
-                    'json' => [
-                        'application/json',
                     ],
                 ],
             ],

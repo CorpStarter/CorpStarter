@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserTypesRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ApiResource]
+use ApiPlatform\Metadata\ApiResource;
+
 #[ORM\Entity(repositoryClass: UserTypesRepository::class)]
+#[ApiResource]
 class UserTypes
 {
     #[ORM\Id]
@@ -60,10 +60,9 @@ class UserTypes
         return $this->creation_date;
     }
 
-    public function setCreationDate(): static
+    public function setCreationDate(\DateTime $creation_date): static
     {
-        date_default_timezone_set('Europe/Paris');
-        $this->creation_date = new DateTime();
+        $this->creation_date = $creation_date;
 
         return $this;
     }

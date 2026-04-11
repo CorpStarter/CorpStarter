@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ApiResource]
+use ApiPlatform\Metadata\ApiResource;
+
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ApiResource]
 class Project
 {
     #[ORM\Id]
@@ -21,34 +22,36 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $requested_budget = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $illustration_path = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $allocated_budget = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $illustration_path = null;
 
     #[ORM\Column]
     private ?\DateTime $creation_date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    private ?ProjectStatus $status = null;
+
+    #[ORM\ManyToOne]
+    private ?Users $requester = null;
+
+    #[ORM\ManyToOne]
+    private ?Users $approver = null;
+
     /**
      * @var Collection<int, Users>
      */
-    #[ORM\ManyToMany(targetEntity: Users::class, inversedBy: 'projects')]
-    private Collection $requester;
-
-    #[ORM\ManyToOne(inversedBy: 'projects')]
-    private ?Users $approver = null;
-
-    #[ORM\ManyToOne(inversedBy: 'projects')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?ProjectStatus $status = null;
+    #[ORM\ManyToMany(targetEntity: Users::class)]
+    private Collection $attendees;
 
     public function __construct()
     {
-        $this->requester = new ArrayCollection();
+        $this->attendees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -73,21 +76,9 @@ class Project
         return $this->requested_budget;
     }
 
-    public function setRequestedBudget(?string $requested_budget): static
+    public function setRequestedBudget(string $requested_budget): static
     {
         $this->requested_budget = $requested_budget;
-
-        return $this;
-    }
-
-    public function getIllustrationPath(): ?string
-    {
-        return $this->illustration_path;
-    }
-
-    public function setIllustrationPath(?string $illustration_path): static
-    {
-        $this->illustration_path = $illustration_path;
 
         return $this;
     }
@@ -97,9 +88,21 @@ class Project
         return $this->allocated_budget;
     }
 
-    public function setAllocatedBudget(?string $allocated_budget): static
+    public function setAllocatedBudget(string $allocated_budget): static
     {
         $this->allocated_budget = $allocated_budget;
+
+        return $this;
+    }
+
+    public function getIllustrationPath(): ?string
+    {
+        return $this->illustration_path;
+    }
+
+    public function setIllustrationPath(string $illustration_path): static
+    {
+        $this->illustration_path = $illustration_path;
 
         return $this;
     }
@@ -109,34 +112,33 @@ class Project
         return $this->creation_date;
     }
 
-    public function setCreationDate(): static
+    public function setCreationDate(\DateTime $creation_date): static
     {
-        date_default_timezone_set('Europe/Paris');
-        $this->creation_date = new \DateTime();
+        $this->creation_date = $creation_date;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Users>
-     */
-    public function getRequester(): Collection
+    public function getStatus(): ?ProjectStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?ProjectStatus $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getRequester(): ?Users
     {
         return $this->requester;
     }
 
-    public function addRequester(Users $requester): static
+    public function setRequester(?Users $requester): static
     {
-        if (!$this->requester->contains($requester)) {
-            $this->requester->add($requester);
-        }
-
-        return $this;
-    }
-
-    public function removeRequester(Users $requester): static
-    {
-        $this->requester->removeElement($requester);
+        $this->requester = $requester;
 
         return $this;
     }
@@ -153,14 +155,26 @@ class Project
         return $this;
     }
 
-    public function getStatus(): ?ProjectStatus
+    /**
+     * @return Collection<int, Users>
+     */
+    public function getAttendees(): Collection
     {
-        return $this->status;
+        return $this->attendees;
     }
 
-    public function setStatus(?ProjectStatus $status): static
+    public function addAttendee(Users $attendee): static
     {
-        $this->status = $status;
+        if (!$this->attendees->contains($attendee)) {
+            $this->attendees->add($attendee);
+        }
+
+        return $this;
+    }
+
+    public function removeAttendee(Users $attendee): static
+    {
+        $this->attendees->removeElement($attendee);
 
         return $this;
     }

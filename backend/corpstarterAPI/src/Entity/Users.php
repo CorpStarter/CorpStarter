@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UsersRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ApiResource]
+use ApiPlatform\Metadata\ApiResource;
+
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
+#[ApiResource]
 class Users
 {
     #[ORM\Id]
@@ -26,6 +25,12 @@ class Users
     #[ORM\Column(length: 255)]
     private ?string $first_name = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $token = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $token_date = null;
+
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -38,28 +43,11 @@ class Users
     #[ORM\Column]
     private ?bool $terms_accepted = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?UserTypes $user_type = null;
-
     #[ORM\Column]
     private ?\DateTime $creation_date = null;
 
-    /**
-     * @var Collection<int, Project>
-     */
-    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'requester')]
-    private Collection $projects;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $conection_token = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTime $token_date = null;
-
-    public function __construct()
-    {
-        $this->projects = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?UserTypes $user_type = null;
 
     public function getId(): ?int
     {
@@ -98,6 +86,30 @@ class Users
     public function setFirstName(string $first_name): static
     {
         $this->first_name = $first_name;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): static
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getTokenDate(): ?\DateTime
+    {
+        return $this->token_date;
+    }
+
+    public function setTokenDate(?\DateTime $token_date): static
+    {
+        $this->token_date = $token_date;
 
         return $this;
     }
@@ -150,6 +162,18 @@ class Users
         return $this;
     }
 
+    public function getCreationDate(): ?\DateTime
+    {
+        return $this->creation_date;
+    }
+
+    public function setCreationDate(\DateTime $creation_date): static
+    {
+        $this->creation_date = $creation_date;
+
+        return $this;
+    }
+
     public function getUserType(): ?UserTypes
     {
         return $this->user_type;
@@ -158,89 +182,6 @@ class Users
     public function setUserType(?UserTypes $user_type): static
     {
         $this->user_type = $user_type;
-
-        return $this;
-    }
-
-    public function getCreationDate(): ?\DateTime
-    {
-        return $this->creation_date;
-    }
-
-    public function setCreationDate(): static
-    {
-        date_default_timezone_set('Europe/Paris');
-        $this->creation_date = new \DateTime();
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Project>
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
-
-    public function addProject(Project $project): static
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects->add($project);
-            $project->addRequester($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Project $project): static
-    {
-        if ($this->projects->removeElement($project)) {
-            $project->removeRequester($this);
-        }
-
-        return $this;
-    }
-
-    public function addProjectApproval(Project $project): static
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects->add($project);
-            $project->setApprover($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProjectApproval(Project $project): static
-    {
-        if ($this->projects->removeElement($project)) {
-            $project->removeRequester($this);
-        }
-
-        return $this;
-    }
-
-    public function getConectionToken(): ?string
-    {
-        return $this->conection_token;
-    }
-
-    public function setConectionToken(?string $conection_token): static
-    {
-        $this->conection_token = $conection_token;
-
-        return $this;
-    }
-
-    public function getTokenDate(): ?\DateTime
-    {
-        return $this->token_date;
-    }
-
-    public function setTokenDate(?\DateTime $token_date): static
-    {
-        $this->token_date = $token_date;
 
         return $this;
     }

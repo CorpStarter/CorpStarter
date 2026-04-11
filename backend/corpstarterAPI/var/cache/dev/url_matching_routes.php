@@ -8,18 +8,20 @@
 return [
     false, // $matchHost
     [ // $staticRoutes
-        '/auth/signup' => [[['_route' => 'auth_signup', '_controller' => 'App\\Controller\\AuthController::signup'], null, ['POST' => 0], null, false, false, null]],
-        '/auth/signin' => [[['_route' => 'auth_signin', '_controller' => 'App\\Controller\\AuthController::signin'], null, ['POST' => 0], null, false, false, null]],
-        '/auth/verify-email' => [[['_route' => 'auth_verify_email', '_controller' => 'App\\Controller\\AuthController::verifyEmail'], null, ['POST' => 0], null, false, false, null]],
+        '/_wdt/styles' => [[['_route' => '_wdt_stylesheet', '_controller' => 'web_profiler.controller.profiler::toolbarStylesheetAction'], null, null, null, false, false, null]],
+        '/_profiler' => [[['_route' => '_profiler_home', '_controller' => 'web_profiler.controller.profiler::homeAction'], null, null, null, true, false, null]],
+        '/_profiler/search' => [[['_route' => '_profiler_search', '_controller' => 'web_profiler.controller.profiler::searchAction'], null, null, null, false, false, null]],
+        '/_profiler/search_bar' => [[['_route' => '_profiler_search_bar', '_controller' => 'web_profiler.controller.profiler::searchBarAction'], null, null, null, false, false, null]],
+        '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
+        '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
+        '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
+        '/auth/register' => [[['_route' => 'app_auth_register', '_controller' => 'App\\Controller\\AuthController::register'], null, ['POST' => 0], null, false, false, null]],
+        '/auth/verify-email' => [[['_route' => 'app_auth_verify_email', '_controller' => 'App\\Controller\\AuthController::verifyEmail'], null, ['PATCH' => 0], null, false, false, null]],
+        '/auth/login' => [[['_route' => 'app_auth_login', '_controller' => 'App\\Controller\\AuthController::login'], null, ['POST' => 0], null, false, false, null]],
         '/projects' => [
-            [['_route' => 'projects_list', '_controller' => 'App\\Controller\\ProjectController::list'], null, ['GET' => 0], null, false, false, null],
-            [['_route' => 'projects_create', '_controller' => 'App\\Controller\\ProjectController::create'], null, ['POST' => 0], null, false, false, null],
+            [['_route' => 'app_project_create', '_controller' => 'App\\Controller\\ProjectController::create'], null, ['POST' => 0], null, false, false, null],
+            [['_route' => 'app_project_list', '_controller' => 'App\\Controller\\ProjectController::list'], null, ['GET' => 0], null, false, false, null],
         ],
-        '/api/admin/project-status' => [[['_route' => 'api_admin_create_project_status', '_controller' => 'App\\Controller\\AdminController::createProjectStatus'], null, ['POST' => 0], null, false, false, null]],
-        '/api/admin/user-types' => [[['_route' => 'api_admin_create_user_types', '_controller' => 'App\\Controller\\AdminController::createUserTypes'], null, ['POST' => 0], null, false, false, null]],
-        '/api/auth/signup' => [[['_route' => 'api_auth_signup', '_controller' => 'App\\Controller\\AuthController::signup'], null, ['POST' => 0], null, false, false, null]],
-        '/api/auth/signin' => [[['_route' => 'api_auth_signin', '_controller' => 'App\\Controller\\AuthController::signin'], null, ['POST' => 0], null, false, false, null]],
-        '/api/auth/verify-email' => [[['_route' => 'api_auth_verify_email', '_controller' => 'App\\Controller\\AuthController::verifyEmail'], null, ['POST' => 0], null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -43,65 +45,66 @@ return [
                                     .'|(?:\\.([^/]++))?(?'
                                         .'|(*:335)'
                                     .')'
-                                    .'|/(?'
-                                        .'|([^/\\.]++)(?:\\.([^/]++))?(?'
-                                            .'|(*:376)'
-                                        .')'
-                                        .'|([^/]++)(?'
-                                            .'|(*:396)'
-                                            .'|/join(*:409)'
-                                        .')'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
+                                        .'|(*:373)'
                                     .')'
-                                    .'|(*:419)'
                                 .')'
                                 .'|_statuses(?'
-                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:466)'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:421)'
                                     .'|(?:\\.([^/]++))?(?'
-                                        .'|(*:492)'
+                                        .'|(*:447)'
                                     .')'
                                     .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                        .'|(*:530)'
+                                        .'|(*:485)'
                                     .')'
                                 .')'
                             .')'
                             .'|user(?'
                                 .'|_types(?'
-                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:583)'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:538)'
                                     .'|(?:\\.([^/]++))?(?'
-                                        .'|(*:609)'
+                                        .'|(*:564)'
                                     .')'
                                     .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                        .'|(*:647)'
+                                        .'|(*:602)'
                                     .')'
                                 .')'
                                 .'|s(?'
-                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:687)'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:642)'
                                     .'|(?:\\.([^/]++))?(?'
-                                        .'|(*:713)'
+                                        .'|(*:668)'
                                     .')'
                                     .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                        .'|(*:751)'
+                                        .'|(*:706)'
                                     .')'
                                 .')'
                             .')'
-                            .'|admin/projects/([^/]++)/(?'
-                                .'|status(*:795)'
-                                .'|budget(*:809)'
-                            .')'
                         .')'
                     .')'
-                    .'|dmin/projects/(?'
-                        .'|(\\d+)/status(*:849)'
-                        .'|(\\d+)/budget(*:869)'
+                    .'|dmin/projects/([^/]++)(*:741)'
+                .')'
+                .'|/_(?'
+                    .'|error/(\\d+)(?:\\.([^/]++))?(*:781)'
+                    .'|wdt/([^/]++)(*:801)'
+                    .'|profiler/(?'
+                        .'|font/([^/\\.]++)\\.woff2(*:843)'
+                        .'|([^/]++)(?'
+                            .'|/(?'
+                                .'|search/results(*:880)'
+                                .'|router(*:894)'
+                                .'|exception(?'
+                                    .'|(*:914)'
+                                    .'|\\.css(*:927)'
+                                .')'
+                            .')'
+                            .'|(*:937)'
+                        .')'
                     .')'
                 .')'
-                .'|/projects/(?'
-                    .'|(\\d+)(?'
-                        .'|(*:900)'
-                    .')'
-                    .'|(\\d+)/join(*:919)'
+                .'|/projects/([^/]++)(?'
+                    .'|(*:969)'
+                    .'|/join(*:982)'
                 .')'
-                .'|/_error/(\\d+)(?:\\.([^/]++))?(*:956)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -122,57 +125,52 @@ return [
             [['_route' => '_api_/projects{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Project', '_api_operation_name' => '_api_/projects{._format}_get_collection', '_format' => null], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/projects{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Project', '_api_operation_name' => '_api_/projects{._format}_post', '_format' => null], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        376 => [
+        373 => [
             [['_route' => '_api_/projects/{id}{._format}_patch', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Project', '_api_operation_name' => '_api_/projects/{id}{._format}_patch', '_format' => null], ['id', '_format'], ['PATCH' => 0], null, false, true, null],
             [['_route' => '_api_/projects/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Project', '_api_operation_name' => '_api_/projects/{id}{._format}_delete', '_format' => null], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        396 => [
-            [['_route' => 'api_projects_edit', '_controller' => 'App\\Controller\\ProjectController::edit'], ['id'], ['PUT' => 0, 'PATCH' => 1], null, false, true, null],
-            [['_route' => 'api_projects_delete', '_controller' => 'App\\Controller\\ProjectController::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
-        ],
-        409 => [[['_route' => 'api_projects_join', '_controller' => 'App\\Controller\\ProjectController::join'], ['id'], ['POST' => 0], null, false, false, null]],
-        419 => [
-            [['_route' => 'api_projects_list', '_controller' => 'App\\Controller\\ProjectController::list'], [], ['GET' => 0], null, false, false, null],
-            [['_route' => 'api_projects_create', '_controller' => 'App\\Controller\\ProjectController::create'], [], ['POST' => 0], null, false, false, null],
-        ],
-        466 => [[['_route' => '_api_/project_statuses/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\ProjectStatus', '_api_operation_name' => '_api_/project_statuses/{id}{._format}_get', '_format' => null], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        492 => [
+        421 => [[['_route' => '_api_/project_statuses/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\ProjectStatus', '_api_operation_name' => '_api_/project_statuses/{id}{._format}_get', '_format' => null], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        447 => [
             [['_route' => '_api_/project_statuses{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\ProjectStatus', '_api_operation_name' => '_api_/project_statuses{._format}_get_collection', '_format' => null], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/project_statuses{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\ProjectStatus', '_api_operation_name' => '_api_/project_statuses{._format}_post', '_format' => null], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        530 => [
+        485 => [
             [['_route' => '_api_/project_statuses/{id}{._format}_patch', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\ProjectStatus', '_api_operation_name' => '_api_/project_statuses/{id}{._format}_patch', '_format' => null], ['id', '_format'], ['PATCH' => 0], null, false, true, null],
             [['_route' => '_api_/project_statuses/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\ProjectStatus', '_api_operation_name' => '_api_/project_statuses/{id}{._format}_delete', '_format' => null], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        583 => [[['_route' => '_api_/user_types/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\UserTypes', '_api_operation_name' => '_api_/user_types/{id}{._format}_get', '_format' => null], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        609 => [
+        538 => [[['_route' => '_api_/user_types/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\UserTypes', '_api_operation_name' => '_api_/user_types/{id}{._format}_get', '_format' => null], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        564 => [
             [['_route' => '_api_/user_types{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\UserTypes', '_api_operation_name' => '_api_/user_types{._format}_get_collection', '_format' => null], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/user_types{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\UserTypes', '_api_operation_name' => '_api_/user_types{._format}_post', '_format' => null], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        647 => [
+        602 => [
             [['_route' => '_api_/user_types/{id}{._format}_patch', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\UserTypes', '_api_operation_name' => '_api_/user_types/{id}{._format}_patch', '_format' => null], ['id', '_format'], ['PATCH' => 0], null, false, true, null],
             [['_route' => '_api_/user_types/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\UserTypes', '_api_operation_name' => '_api_/user_types/{id}{._format}_delete', '_format' => null], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        687 => [[['_route' => '_api_/users/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Users', '_api_operation_name' => '_api_/users/{id}{._format}_get', '_format' => null], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        713 => [
+        642 => [[['_route' => '_api_/users/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Users', '_api_operation_name' => '_api_/users/{id}{._format}_get', '_format' => null], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        668 => [
             [['_route' => '_api_/users{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Users', '_api_operation_name' => '_api_/users{._format}_get_collection', '_format' => null], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/users{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Users', '_api_operation_name' => '_api_/users{._format}_post', '_format' => null], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        751 => [
+        706 => [
             [['_route' => '_api_/users/{id}{._format}_patch', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Users', '_api_operation_name' => '_api_/users/{id}{._format}_patch', '_format' => null], ['id', '_format'], ['PATCH' => 0], null, false, true, null],
             [['_route' => '_api_/users/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Users', '_api_operation_name' => '_api_/users/{id}{._format}_delete', '_format' => null], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        795 => [[['_route' => 'api_admin_change_project_status', '_controller' => 'App\\Controller\\AdminController::changeProjectStatus'], ['id'], ['PATCH' => 0], null, false, false, null]],
-        809 => [[['_route' => 'api_admin_allocate_budget', '_controller' => 'App\\Controller\\AdminController::allocateBudget'], ['id'], ['PATCH' => 0], null, false, false, null]],
-        849 => [[['_route' => 'admin_change_project_status', '_controller' => 'App\\Controller\\AdminController::changeProjectStatus'], ['id'], ['PATCH' => 0], null, false, false, null]],
-        869 => [[['_route' => 'admin_allocate_budget', '_controller' => 'App\\Controller\\AdminController::allocateBudget'], ['id'], ['PATCH' => 0], null, false, false, null]],
-        900 => [
-            [['_route' => 'projects_edit', '_controller' => 'App\\Controller\\ProjectController::edit'], ['id'], ['PUT' => 0, 'PATCH' => 1], null, false, true, null],
-            [['_route' => 'projects_delete', '_controller' => 'App\\Controller\\ProjectController::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
+        741 => [[['_route' => 'app_admin_projects_update', '_controller' => 'App\\Controller\\AdminController::update'], ['id'], ['PATCH' => 0], null, false, true, null]],
+        781 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
+        801 => [[['_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'], ['token'], null, null, false, true, null]],
+        843 => [[['_route' => '_profiler_font', '_controller' => 'web_profiler.controller.profiler::fontAction'], ['fontName'], null, null, false, false, null]],
+        880 => [[['_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'], ['token'], null, null, false, false, null]],
+        894 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
+        914 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
+        927 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
+        937 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
+        969 => [
+            [['_route' => 'app_project_update', '_controller' => 'App\\Controller\\ProjectController::update'], ['id'], ['PUT' => 0], null, false, true, null],
+            [['_route' => 'app_project_delete', '_controller' => 'App\\Controller\\ProjectController::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        919 => [[['_route' => 'projects_join', '_controller' => 'App\\Controller\\ProjectController::join'], ['id'], ['POST' => 0], null, false, false, null]],
-        956 => [
-            [['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null],
+        982 => [
+            [['_route' => 'app_project_join', '_controller' => 'App\\Controller\\ProjectController::join'], ['id'], ['POST' => 0], null, false, false, null],
             [null, null, null, null, false, false, 0],
         ],
     ],
