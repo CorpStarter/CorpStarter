@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-    <parameter key="kernel.project_dir">C:\wamp64\www\corpstarterAPI</parameter>
+    <parameter key="kernel.project_dir">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</parameter>
     <parameter key="kernel.environment">dev</parameter>
     <parameter key="kernel.runtime_environment">%env(default:kernel.environment:APP_RUNTIME_ENV)%</parameter>
     <parameter key="kernel.runtime_mode">%env(query_string:default:container.runtime_mode:APP_RUNTIME_MODE)%</parameter>
@@ -9,9 +9,9 @@
     <parameter key="kernel.runtime_mode.cli">%env(not:default:kernel.runtime_mode.web:)%</parameter>
     <parameter key="kernel.runtime_mode.worker">%env(bool:default::key:worker:default:kernel.runtime_mode:)%</parameter>
     <parameter key="kernel.debug">true</parameter>
-    <parameter key="kernel.build_dir">C:\wamp64\www\corpstarterAPI\var\cache\dev</parameter>
-    <parameter key="kernel.cache_dir">C:\wamp64\www\corpstarterAPI\var\cache\dev</parameter>
-    <parameter key="kernel.logs_dir">C:\wamp64\www\corpstarterAPI\var\log</parameter>
+    <parameter key="kernel.build_dir">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev</parameter>
+    <parameter key="kernel.cache_dir">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev</parameter>
+    <parameter key="kernel.logs_dir">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/log</parameter>
     <parameter key="kernel.bundles" type="collection">
       <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
       <parameter key="TwigBundle">Symfony\Bundle\TwigBundle\TwigBundle</parameter>
@@ -27,59 +27,59 @@
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\symfony\framework-bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/framework-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
       </parameter>
       <parameter key="TwigBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\symfony\twig-bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/twig-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\TwigBundle</parameter>
       </parameter>
       <parameter key="WebProfilerBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\symfony\web-profiler-bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/web-profiler-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\WebProfilerBundle</parameter>
       </parameter>
       <parameter key="MonologBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\symfony\monolog-bundle\src</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/monolog-bundle/src</parameter>
         <parameter key="namespace">Symfony\Bundle\MonologBundle</parameter>
       </parameter>
       <parameter key="DebugBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\symfony\debug-bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/debug-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\DebugBundle</parameter>
       </parameter>
       <parameter key="MakerBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\symfony\maker-bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/maker-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
       </parameter>
       <parameter key="DoctrineBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\doctrine\doctrine-bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/doctrine/doctrine-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\DoctrineBundle</parameter>
       </parameter>
       <parameter key="DoctrineMigrationsBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\doctrine\doctrine-migrations-bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/doctrine/doctrine-migrations-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\MigrationsBundle</parameter>
       </parameter>
       <parameter key="SecurityBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\symfony\security-bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/security-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\SecurityBundle</parameter>
       </parameter>
       <parameter key="NelmioCorsBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\nelmio\cors-bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/nelmio/cors-bundle</parameter>
         <parameter key="namespace">Nelmio\CorsBundle</parameter>
       </parameter>
       <parameter key="ApiPlatformBundle" type="collection">
-        <parameter key="path">C:\wamp64\www\corpstarterAPI\vendor\api-platform\symfony\Bundle</parameter>
+        <parameter key="path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/api-platform/symfony/Bundle</parameter>
         <parameter key="namespace">ApiPlatform\Symfony\Bundle</parameter>
       </parameter>
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
     <parameter key="kernel.container_class">App_KernelDevDebugContainer</parameter>
-    <parameter key="kernel.share_dir">C:\wamp64\www\corpstarterAPI\var\share\dev</parameter>
+    <parameter key="kernel.share_dir">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/share/dev</parameter>
     <parameter key=".container.known_envs" type="collection">
       <parameter>dev</parameter>
       <parameter>test</parameter>
       <parameter>prod</parameter>
     </parameter>
-    <parameter key=".kernel.config_dir">C:\wamp64\www\corpstarterAPI/config</parameter>
+    <parameter key=".kernel.config_dir">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/config</parameter>
     <parameter key=".kernel.bundles_definition" type="collection">
       <parameter key="Symfony\Bundle\FrameworkBundle\FrameworkBundle" type="collection">
         <parameter key="all">true</parameter>
@@ -149,17 +149,17 @@
     <parameter key="asset.request_context.base_path">null</parameter>
     <parameter key="asset.request_context.secure">null</parameter>
     <parameter key="debug.error_handler.throw_at">-1</parameter>
-    <parameter key="debug.container.dump">C:\wamp64\www\corpstarterAPI\var\cache\dev/App_KernelDevDebugContainer.xml</parameter>
+    <parameter key="debug.container.dump">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/App_KernelDevDebugContainer.xml</parameter>
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
     <parameter key="router.request_context.base_url">%env(DEFAULT_URI)%</parameter>
     <parameter key="router.resource">kernel::loadRoutes</parameter>
-    <parameter key="router.cache_dir">C:\wamp64\www\corpstarterAPI\var\cache\dev</parameter>
+    <parameter key="router.cache_dir">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev</parameter>
     <parameter key="request_listener.http_port">80</parameter>
     <parameter key="request_listener.https_port">443</parameter>
-    <parameter key="serializer.mapping.cache.file">C:\wamp64\www\corpstarterAPI\var\cache\dev/serialization.php</parameter>
+    <parameter key="serializer.mapping.cache.file">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/serialization.php</parameter>
     <parameter key=".serializer.named_serializers" type="collection"/>
-    <parameter key="cache.prefix.seed">_C:\wamp64\www\corpstarterAPI.App_KernelDevDebugContainer</parameter>
+    <parameter key="cache.prefix.seed">_/Users/maryamcisse/CorpStarter/backend/corpstarterAPI.App_KernelDevDebugContainer</parameter>
     <parameter key="session.metadata.storage_key">_sf2_meta</parameter>
     <parameter key="session.storage.options" type="collection">
       <parameter key="cache_limiter" type="string">0</parameter>
@@ -170,15 +170,15 @@
     <parameter key="session.metadata.cookie_lifetime">null</parameter>
     <parameter key="session.save_path">null</parameter>
     <parameter key="session.metadata.update_threshold">0</parameter>
-    <parameter key="validator.mapping.cache.file">C:\wamp64\www\corpstarterAPI\var\cache\dev/validation.php</parameter>
+    <parameter key="validator.mapping.cache.file">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/validation.php</parameter>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="profiler_listener.only_exceptions">false</parameter>
     <parameter key="profiler_listener.only_main_requests">false</parameter>
-    <parameter key="profiler.storage.dsn">file:C:\wamp64\www\corpstarterAPI\var\cache\dev/profiler</parameter>
+    <parameter key="profiler.storage.dsn">file:/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/profiler</parameter>
     <parameter key="twig.form.resources" type="collection">
       <parameter>form_div_layout.html.twig</parameter>
     </parameter>
-    <parameter key="twig.default_path">C:\wamp64\www\corpstarterAPI/templates</parameter>
+    <parameter key="twig.default_path">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/templates</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
     <parameter key="monolog.use_microseconds">true</parameter>
@@ -377,8 +377,8 @@
     </parameter>
     <parameter key="api_platform.defaults.parameters" type="collection"/>
     <parameter key="api_platform.resource_class_directories" type="collection">
-      <parameter>C:\wamp64\www\corpstarterAPI/src/ApiResource</parameter>
-      <parameter>C:\wamp64\www\corpstarterAPI/src/Entity</parameter>
+      <parameter>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/src/ApiResource</parameter>
+      <parameter>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/src/Entity</parameter>
     </parameter>
     <parameter key="api_platform.class_name_resources" type="collection">
       <parameter>ApiPlatform\State\ApiResource\Error</parameter>
@@ -496,6 +496,10 @@
       <parameter key="data_collector.dump" type="collection">
         <parameter>dump</parameter>
         <parameter>@Debug/Profiler/dump.html.twig</parameter>
+      </parameter>
+      <parameter key="mailer.data_collector" type="collection">
+        <parameter>mailer</parameter>
+        <parameter>@WebProfiler/Collector/mailer.html.twig</parameter>
       </parameter>
       <parameter key="serializer.data_collector" type="collection">
         <parameter>serializer</parameter>
@@ -719,7 +723,7 @@
       </argument>
     </service>
     <service id="http_cache.store" class="Symfony\Component\HttpKernel\HttpCache\Store">
-      <argument>C:\wamp64\www\corpstarterAPI\var\share\dev/http_cache</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/share/dev/http_cache</argument>
     </service>
     <service id="url_helper" class="Symfony\Component\HttpFoundation\UrlHelper">
       <argument type="service" id="request_stack"/>
@@ -729,7 +733,7 @@
       <tag name="container.no_preload"/>
       <argument type="tagged_iterator" tag="kernel.cache_warmer"/>
       <argument>true</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/App_KernelDevDebugContainerDeprecations.log</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/App_KernelDevDebugContainerDeprecations.log</argument>
     </service>
     <service id="cache_clearer" class="Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer">
       <argument type="tagged_iterator" tag="kernel.cache_clearer"/>
@@ -764,6 +768,7 @@
         <argument key="cache.validator" type="service" id="cache.validator" on-invalid="ignore_uninitialized"/>
         <argument key="cache.serializer" type="service" id="cache.serializer" on-invalid="ignore_uninitialized"/>
         <argument key="cache.property_info" type="service" id="cache.property_info" on-invalid="ignore_uninitialized"/>
+        <argument key="mailer.message_logger_listener" type="service" id="mailer.message_logger_listener" on-invalid="ignore_uninitialized"/>
         <argument key="debug.stopwatch" type="service" id="debug.stopwatch" on-invalid="ignore_uninitialized"/>
         <argument key="debug.event_dispatcher" type="service" id="debug.event_dispatcher" on-invalid="ignore_uninitialized"/>
         <argument key="debug.log_processor" type="service" id="debug.log_processor" on-invalid="ignore_uninitialized"/>
@@ -815,6 +820,9 @@
           <argument>reset</argument>
         </argument>
         <argument key="cache.property_info" type="collection">
+          <argument>reset</argument>
+        </argument>
+        <argument key="mailer.message_logger_listener" type="collection">
           <argument>reset</argument>
         </argument>
         <argument key="debug.stopwatch" type="collection">
@@ -989,7 +997,7 @@
       </argument>
       <argument>UTF-8</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
       <argument type="service">
         <service>
           <argument type="service" id="request_stack"/>
@@ -1032,7 +1040,7 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="filesystem"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
       <call method="setName">
         <argument>assets:install</argument>
       </call>
@@ -1231,7 +1239,7 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument>dev</argument>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
       <call method="setName">
         <argument>debug:dotenv</argument>
       </call>
@@ -1453,7 +1461,7 @@
       <argument/>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -1472,7 +1480,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument/>
       <argument>0</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\share\dev/pools/app</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/share/dev/pools/app</argument>
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
@@ -1645,6 +1653,78 @@
       <argument type="service" id="assets.empty_version_strategy"/>
       <argument type="service" id="assets.context"/>
     </service>
+    <service id="mailer.mailer" class="Symfony\Component\Mailer\Mailer">
+      <argument type="service" id="mailer.transports"/>
+      <argument>null</argument>
+      <argument type="service" id="debug.event_dispatcher" on-invalid="ignore"/>
+    </service>
+    <service id="mailer.transports" class="Symfony\Component\Mailer\Transport\Transports">
+      <argument type="collection">
+        <argument key="main">%env(MAILER_DSN)%</argument>
+      </argument>
+      <factory service="mailer.transport_factory" method="fromStrings"/>
+    </service>
+    <service id="mailer.transport_factory" class="Symfony\Component\Mailer\Transport">
+      <argument type="tagged_iterator" tag="mailer.transport_factory"/>
+    </service>
+    <service id="mailer.messenger.message_handler" class="Symfony\Component\Mailer\Messenger\MessageHandler">
+      <tag name="messenger.message_handler"/>
+      <argument type="service" id="mailer.transports"/>
+    </service>
+    <service id="mailer.envelope_listener" class="Symfony\Component\Mailer\EventListener\EnvelopeListener">
+      <tag name="kernel.event_subscriber"/>
+      <argument>null</argument>
+      <argument>null</argument>
+      <argument type="collection"/>
+    </service>
+    <service id="mailer.message_logger_listener" class="Symfony\Component\Mailer\EventListener\MessageLoggerListener">
+      <tag name="kernel.reset" method="reset"/>
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="mailer.messenger_transport_listener" class="Symfony\Component\Mailer\EventListener\MessengerTransportListener">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="console.command.mailer_test" class="Symfony\Component\Mailer\Command\MailerTestCommand">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <argument type="service" id="mailer.transports"/>
+      <call method="setName">
+        <argument>mailer:test</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Test Mailer transports by sending an email</argument>
+      </call>
+    </service>
+    <service id="mailer.transport_factory.abstract" class="Symfony\Component\Mailer\Transport\AbstractTransportFactory" abstract="true">
+      <tag name="monolog.logger" channel="mailer"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument type="service" id="http_client" on-invalid="ignore"/>
+      <argument type="service" id="monolog.logger.mailer" on-invalid="ignore"/>
+    </service>
+    <service id="mailer.transport_factory.native" class="Symfony\Component\Mailer\Transport\NativeTransportFactory">
+      <tag name="mailer.transport_factory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument>null</argument>
+      <argument type="service" id="monolog.logger.mailer" on-invalid="ignore"/>
+    </service>
+    <service id="mailer.transport_factory.null" class="Symfony\Component\Mailer\Transport\NullTransportFactory">
+      <tag name="mailer.transport_factory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument>null</argument>
+      <argument type="service" id="monolog.logger.mailer" on-invalid="ignore"/>
+    </service>
+    <service id="mailer.transport_factory.sendmail" class="Symfony\Component\Mailer\Transport\SendmailTransportFactory">
+      <tag name="mailer.transport_factory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument>null</argument>
+      <argument type="service" id="monolog.logger.mailer" on-invalid="ignore"/>
+    </service>
+    <service id="mailer.transport_factory.smtp" class="Symfony\Component\Mailer\Transport\Smtp\EsmtpTransportFactory">
+      <tag name="mailer.transport_factory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument>null</argument>
+      <argument type="service" id="monolog.logger.mailer" on-invalid="ignore"/>
+    </service>
     <service id="debug.error_handler_configurator" class="Symfony\Component\HttpKernel\Debug\ErrorHandlerConfigurator" public="true">
       <tag name="monolog.logger" channel="php"/>
       <argument type="service" id="monolog.logger.php"/>
@@ -1663,7 +1743,7 @@
     <service id="debug.file_link_formatter" class="Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter">
       <argument>%env(default::SYMFONY_IDE)%</argument>
       <argument type="service" id="request_stack" on-invalid="ignore"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
       <argument type="service_closure" id="debug.file_link_formatter.url_format"/>
     </service>
     <service id="debug.stopwatch" class="Symfony\Component\Stopwatch\Stopwatch" public="true">
@@ -1898,6 +1978,30 @@
         <argument>0</argument>
       </call>
       <call method="addListener">
+        <argument>Symfony\Component\Mailer\Event\MessageEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="mailer.envelope_listener"/>
+          <argument>onMessage</argument>
+        </argument>
+        <argument>-255</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Mailer\Event\MessageEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="mailer.message_logger_listener"/>
+          <argument>onMessage</argument>
+        </argument>
+        <argument>-255</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Mailer\Event\MessageEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="mailer.messenger_transport_listener"/>
+          <argument>onMessage</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.request</argument>
         <argument type="collection">
           <argument type="service_closure" id="debug.debug_handlers_listener"/>
@@ -2032,6 +2136,14 @@
           <argument>onKernelView</argument>
         </argument>
         <argument>-128</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Mailer\Event\MessageEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="twig.mailer.message_listener"/>
+          <argument>onMessage</argument>
+        </argument>
+        <argument>0</argument>
       </call>
       <call method="addListener">
         <argument>kernel.response</argument>
@@ -2297,10 +2409,10 @@
     <service id="router.default" class="Symfony\Bundle\FrameworkBundle\Routing\Router">
       <tag name="monolog.logger" channel="router"/>
       <tag name="container.service_subscriber" id="routing.loader"/>
-      <argument type="service" id=".service_locator.vz2yaMk.router.default"/>
+      <argument type="service" id=".service_locator.Qpt_AX6.router.default"/>
       <argument>kernel::loadRoutes</argument>
       <argument type="collection">
-        <argument key="cache_dir">C:\wamp64\www\corpstarterAPI\var\cache\dev</argument>
+        <argument key="cache_dir">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev</argument>
         <argument key="debug">true</argument>
         <argument key="generator_class">Symfony\Component\Routing\Generator\CompiledUrlGenerator</argument>
         <argument key="generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\CompiledUrlGeneratorDumper</argument>
@@ -2351,7 +2463,7 @@
       <argument type="service" id="request_stack"/>
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
       <argument type="service" id="monolog.logger.request" on-invalid="ignore"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
       <argument>true</argument>
     </service>
     <service id="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" class="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" public="true">
@@ -2378,7 +2490,7 @@
       <argument type="service" id="property_info.reflection_extractor" on-invalid="null"/>
     </service>
     <service id="secrets.vault" class="Symfony\Bundle\FrameworkBundle\Secrets\SodiumVault">
-      <argument>C:\wamp64\www\corpstarterAPI/config/secrets/%env(default:kernel.environment:APP_RUNTIME_ENV)%</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/config/secrets/%env(default:kernel.environment:APP_RUNTIME_ENV)%</argument>
       <argument type="service" id="secrets.decryption_key" on-invalid="ignore"/>
       <argument>APP_SECRET</argument>
     </service>
@@ -2391,7 +2503,7 @@
       <argument>base64:default::SYMFONY_DECRYPTION_SECRET</argument>
     </service>
     <service id="secrets.local_vault" class="Symfony\Bundle\FrameworkBundle\Secrets\DotenvVault">
-      <argument>C:\wamp64\www\corpstarterAPI/.env.dev.local</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/.env.dev.local</argument>
     </service>
     <service id="serializer.mapping.class_discriminator_resolver" class="Symfony\Component\Serializer\Mapping\ClassDiscriminatorFromClassMetadata">
       <argument type="service" id="api_platform.serializer.mapping.class_metadata_factory"/>
@@ -2403,6 +2515,11 @@
         <argument key="hydra_prefix">false</argument>
       </argument>
       <argument type="service" id="serializer.name_converter.metadata_aware"/>
+    </service>
+    <service id="serializer.normalizer.mime_message" class="Symfony\Component\Serializer\Normalizer\MimeMessageNormalizer">
+      <tag name="serializer.normalizer" built_in="true" priority="-915"/>
+      <tag name="serializer.normalizer.default" priority="-915"/>
+      <argument type="service" id="serializer.normalizer.property"/>
     </service>
     <service id="serializer.normalizer.datetimezone" class="Symfony\Component\Serializer\Normalizer\DateTimeZoneNormalizer">
       <tag name="serializer.normalizer" built_in="true" priority="-915"/>
@@ -2418,7 +2535,7 @@
     <service id="serializer.normalizer.data_uri" class="Symfony\Component\Serializer\Normalizer\DataUriNormalizer">
       <tag name="serializer.normalizer" built_in="true" priority="-920"/>
       <tag name="serializer.normalizer.default" priority="-920"/>
-      <argument>null</argument>
+      <argument type="service" id="mime_types" on-invalid="null"/>
     </service>
     <service id="serializer.normalizer.datetime" class="Symfony\Component\Serializer\Normalizer\DateTimeNormalizer">
       <tag name="serializer.normalizer" built_in="true" priority="-910"/>
@@ -2506,10 +2623,10 @@
           </service>
         </argument>
       </argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/serialization.php</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/serialization.php</argument>
     </service>
     <service id="serializer.mapping.cache.symfony" class="Psr\Cache\CacheItemPoolInterface">
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/serialization.php</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/serialization.php</argument>
       <argument type="service" id="cache.serializer"/>
       <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
     </service>
@@ -2760,7 +2877,7 @@
       <argument>true</argument>
     </service>
     <service id="session.storage.factory.mock_file" class="Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorageFactory">
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/sessions</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/sessions</argument>
       <argument>MOCKSESSID</argument>
       <argument type="service">
         <service class="Symfony\Component\HttpFoundation\Session\Storage\MetadataBag">
@@ -2843,10 +2960,10 @@
     <service id="validator.mapping.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer">
       <tag name="kernel.cache_warmer"/>
       <argument type="service" id="validator.builder"/>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/validation.php</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/validation.php</argument>
     </service>
     <service id="validator.mapping.cache.adapter" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" constructor="create">
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/validation.php</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/validation.php</argument>
       <argument type="service" id="cache.validator"/>
     </service>
     <service id="validator.validator_factory" class="Symfony\Component\Validator\ContainerConstraintValidatorFactory">
@@ -3224,6 +3341,9 @@
         <argument type="service" id="data_collector.dump"/>
       </call>
       <call method="add">
+        <argument type="service" id="mailer.data_collector"/>
+      </call>
+      <call method="add">
         <argument type="service" id="serializer.data_collector"/>
       </call>
       <call method="add">
@@ -3231,7 +3351,7 @@
       </call>
     </service>
     <service id="profiler.storage" class="Symfony\Component\HttpKernel\Profiler\FileProfilerStorage">
-      <argument>file:C:\wamp64\www\corpstarterAPI\var\cache\dev/profiler</argument>
+      <argument>file:/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/profiler</argument>
     </service>
     <service id="profiler_listener" class="Symfony\Component\HttpKernel\EventListener\ProfilerListener">
       <tag name="kernel.reset" method="?reset"/>
@@ -3312,7 +3432,7 @@
       <tag name="monolog.logger" channel="profiler"/>
       <tag name="data_collector" template="@WebProfiler/Collector/logger.html.twig" id="logger" priority="300"/>
       <argument type="service" id="monolog.logger.profiler" on-invalid="ignore"/>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/App_KernelDevDebugContainer</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/App_KernelDevDebugContainer</argument>
       <argument type="service" id=".virtual_request_stack" on-invalid="ignore"/>
     </service>
     <service id="data_collector.time" class="Symfony\Component\HttpKernel\DataCollector\TimeDataCollector">
@@ -3420,6 +3540,10 @@
       <tag name="data_collector" template="@WebProfiler/Collector/validator.html.twig" id="validator" priority="320"/>
       <argument type="service" id="debug.validator"/>
     </service>
+    <service id="mailer.data_collector" class="Symfony\Component\Mailer\DataCollector\MessageDataCollector">
+      <tag name="data_collector" template="@WebProfiler/Collector/mailer.html.twig" id="mailer"/>
+      <argument type="service" id="mailer.message_logger_listener"/>
+    </service>
     <service id="debug.serializer" class="Symfony\Component\Serializer\Debug\TraceableSerializer">
       <tag name="container.decorator" id="serializer" inner="debug.serializer.inner"/>
       <argument type="service" id="debug.serializer.inner"/>
@@ -3428,6 +3552,11 @@
     </service>
     <service id="serializer.data_collector" class="Symfony\Component\Serializer\DataCollector\SerializerDataCollector">
       <tag name="data_collector" template="@WebProfiler/Collector/serializer.html.twig" id="serializer"/>
+    </service>
+    <service id="mime_types" class="Symfony\Component\Mime\MimeTypes">
+      <call method="setDefault">
+        <argument type="service" id="mime_types"/>
+      </call>
     </service>
     <service id="twig" class="Twig\Environment">
       <tag name="container.preload" class="Twig\Cache\FilesystemCache"/>
@@ -3442,7 +3571,7 @@
       <tag name="kernel.reset" method="resetGlobals"/>
       <argument type="service" id="twig.loader.native_filesystem"/>
       <argument type="collection">
-        <argument key="cache">C:\wamp64\www\corpstarterAPI\var\cache\dev/twig</argument>
+        <argument key="cache">/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/twig</argument>
         <argument key="charset">UTF-8</argument>
         <argument key="debug">true</argument>
         <argument key="strict_variables">true</argument>
@@ -3530,8 +3659,10 @@
     </service>
     <service id="twig.template_iterator" class="Symfony\Bundle\TwigBundle\TemplateIterator">
       <argument type="service" id="kernel"/>
-      <argument type="collection"/>
-      <argument>C:\wamp64\www\corpstarterAPI/templates</argument>
+      <argument type="collection">
+        <argument key="/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/twig-bridge/Resources/views/Email">email</argument>
+      </argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/templates</argument>
       <argument type="collection">
         <argument>*.twig</argument>
       </argument>
@@ -3546,65 +3677,73 @@
     <service id="twig.loader.native_filesystem" class="Twig\Loader\FilesystemLoader">
       <tag name="twig.loader"/>
       <argument type="collection"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\symfony\web-profiler-bundle/Resources/views</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/web-profiler-bundle/Resources/views</argument>
         <argument>WebProfiler</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\symfony\web-profiler-bundle/Resources/views</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/web-profiler-bundle/Resources/views</argument>
         <argument>!WebProfiler</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\symfony\debug-bundle/Resources/views</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/debug-bundle/Resources/views</argument>
         <argument>Debug</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\symfony\debug-bundle/Resources/views</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/debug-bundle/Resources/views</argument>
         <argument>!Debug</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\symfony\maker-bundle/templates</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/maker-bundle/templates</argument>
         <argument>Maker</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\symfony\maker-bundle/templates</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/maker-bundle/templates</argument>
         <argument>!Maker</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\doctrine\doctrine-bundle/templates</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/doctrine/doctrine-bundle/templates</argument>
         <argument>Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\doctrine\doctrine-bundle/templates</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/doctrine/doctrine-bundle/templates</argument>
         <argument>!Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\doctrine\doctrine-migrations-bundle/templates</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/doctrine/doctrine-migrations-bundle/templates</argument>
         <argument>DoctrineMigrations</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\doctrine\doctrine-migrations-bundle/templates</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/doctrine/doctrine-migrations-bundle/templates</argument>
         <argument>!DoctrineMigrations</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\symfony\security-bundle/Resources/views</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/security-bundle/Resources/views</argument>
         <argument>Security</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\symfony\security-bundle/Resources/views</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/security-bundle/Resources/views</argument>
         <argument>!Security</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\api-platform\symfony\Bundle/Resources/views</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/api-platform/symfony/Bundle/Resources/views</argument>
         <argument>ApiPlatform</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI\vendor\api-platform\symfony\Bundle/Resources/views</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/api-platform/symfony/Bundle/Resources/views</argument>
         <argument>!ApiPlatform</argument>
       </call>
       <call method="addPath">
-        <argument>C:\wamp64\www\corpstarterAPI/templates</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/templates</argument>
+      </call>
+      <call method="addPath">
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/twig-bridge/Resources/views/Email</argument>
+        <argument>email</argument>
+      </call>
+      <call method="addPath">
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/vendor/symfony/twig-bridge/Resources/views/Email</argument>
+        <argument>!email</argument>
       </call>
     </service>
     <service id="twig.loader.chain" class="Twig\Loader\ChainLoader"/>
@@ -3699,9 +3838,9 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="twig"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
       <argument>%kernel.bundles_metadata%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI/templates</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/templates</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
       <call method="setName">
         <argument>debug:twig</argument>
@@ -3728,13 +3867,21 @@
       <tag name="validator.constraint_validator"/>
       <argument type="service" id="twig"/>
     </service>
+    <service id="twig.mailer.message_listener" class="Symfony\Component\Mailer\EventListener\MessageListener">
+      <tag name="kernel.event_subscriber"/>
+      <argument>null</argument>
+      <argument type="service" id="twig.mime_body_renderer"/>
+    </service>
+    <service id="twig.mime_body_renderer" class="Symfony\Bridge\Twig\Mime\BodyRenderer">
+      <argument type="service" id="twig"/>
+    </service>
     <service id="web_profiler.controller.profiler" class="Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController" public="true">
       <argument type="service" id="router.default" on-invalid="null"/>
       <argument type="service" id="profiler" on-invalid="null"/>
       <argument type="service" id="twig"/>
       <argument>%data_collector.templates%</argument>
       <argument type="service" id="web_profiler.csp.handler"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
     </service>
     <service id="web_profiler.controller.router" class="Symfony\Bundle\WebProfilerBundle\Controller\RouterController" public="true">
       <argument type="service" id="profiler" on-invalid="null"/>
@@ -3777,7 +3924,7 @@
     <service id="twig.extension.code" class="Symfony\Bundle\WebProfilerBundle\Profiler\CodeExtension">
       <tag name="twig.extension"/>
       <argument type="service" id="debug.file_link_formatter"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
       <argument>UTF-8</argument>
     </service>
     <service id="web_profiler.debug_toolbar" class="Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener">
@@ -3829,7 +3976,7 @@
     <service id="monolog.processor.psr_log_message" class="Monolog\Processor\PsrLogMessageProcessor"/>
     <service id="monolog.handler.main" class="Monolog\Handler\StreamHandler">
       <tag name="kernel.reset" method="reset"/>
-      <argument>C:\wamp64\www\corpstarterAPI\var\log/dev.log</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/log/dev.log</argument>
       <argument>debug</argument>
       <argument>true</argument>
       <argument>null</argument>
@@ -3899,7 +4046,7 @@
         <argument key="source" type="service">
           <service class="Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider">
             <argument>UTF-8</argument>
-            <argument>C:\wamp64\www\corpstarterAPI</argument>
+            <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
             <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
           </service>
         </argument>
@@ -3921,7 +4068,7 @@
         <argument key="source" type="service">
           <service class="Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider">
             <argument>UTF-8</argument>
-            <argument>C:\wamp64\www\corpstarterAPI</argument>
+            <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
             <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
           </service>
         </argument>
@@ -3977,8 +4124,8 @@
       <argument type="service" id="filesystem"/>
       <argument type="service" id="maker.autoloader_util"/>
       <argument type="service" id="maker.file_link_formatter"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
-      <argument>C:\wamp64\www\corpstarterAPI/templates</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/templates</argument>
     </service>
     <service id="maker.autoloader_finder" class="Symfony\Bundle\MakerBundle\Util\ComposerAutoloaderFinder">
       <argument>App</argument>
@@ -4155,7 +4302,7 @@
     </service>
     <service id="maker.maker.make_migration" class="Symfony\Bundle\MakerBundle\Maker\MakeMigration">
       <tag name="maker.command"/>
-      <argument>C:\wamp64\www\corpstarterAPI</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI</argument>
       <argument type="service" id="maker.file_link_formatter"/>
     </service>
     <service id="maker.maker.make_stimulus_controller" class="Symfony\Bundle\MakerBundle\Maker\MakeStimulusController">
@@ -4617,7 +4764,7 @@
     </service>
     <service id="doctrine.orm.default_attribute_metadata_driver" class="Doctrine\ORM\Mapping\Driver\AttributeDriver">
       <argument type="collection">
-        <argument>C:\wamp64\www\corpstarterAPI\src\Entity</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/src/Entity</argument>
       </argument>
     </service>
     <service id="cache.doctrine.orm.default.metadata" class="Symfony\Component\Cache\Adapter\ArrayAdapter"/>
@@ -4682,7 +4829,7 @@
     <service id="doctrine.migrations.configuration" class="Doctrine\Migrations\Configuration\Configuration">
       <call method="addMigrationsDirectory">
         <argument>DoctrineMigrations</argument>
-        <argument>C:\wamp64\www\corpstarterAPI/migrations</argument>
+        <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/migrations</argument>
       </call>
       <call method="setAllOrNothing">
         <argument>false</argument>
@@ -7441,6 +7588,11 @@
       <argument type="service" id="serializer.data_collector"/>
       <argument>default</argument>
     </service>
+    <service id=".debug.serializer.normalizer.serializer.normalizer.mime_message" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+      <argument type="service" id="serializer.normalizer.mime_message"/>
+      <argument type="service" id="serializer.data_collector"/>
+      <argument>default</argument>
+    </service>
     <service id=".debug.serializer.normalizer.serializer.normalizer.datetimezone" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
       <argument type="service" id="serializer.normalizer.datetimezone"/>
       <argument type="service" id="serializer.data_collector"/>
@@ -7627,6 +7779,17 @@
     <service id="monolog.logger.cache" class="Monolog\Logger">
       <tag name="monolog.channel_logger"/>
       <argument>cache</argument>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+      <configurator service="debug.debug_logger_configurator" method="pushDebugLogger"/>
+    </service>
+    <service id="monolog.logger.mailer" class="Monolog\Logger">
+      <tag name="monolog.channel_logger"/>
+      <argument>mailer</argument>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
@@ -7842,17 +8005,17 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.TJNRSaV" method="withContext"/>
     </service>
-    <service id=".service_locator.vz2yaMk" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Qpt_AX6" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="routing.loader" type="service_closure" id="routing.loader"/>
       </argument>
     </service>
-    <service id=".service_locator.vz2yaMk.router.default" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Qpt_AX6.router.default" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="router.default"/>
       <argument>router.default</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.vz2yaMk" method="withContext"/>
+      <factory service=".service_locator.Qpt_AX6" method="withContext"/>
     </service>
     <service id=".service_locator.mFBT25N" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
@@ -8201,6 +8364,13 @@
         <argument type="service">
           <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
             <argument type="service" id="serializer.normalizer.constraint_violation_list"/>
+            <argument type="service" id="serializer.data_collector"/>
+            <argument>default</argument>
+          </service>
+        </argument>
+        <argument type="service">
+          <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+            <argument type="service" id="serializer.normalizer.mime_message"/>
             <argument type="service" id="serializer.data_collector"/>
             <argument>default</argument>
           </service>
@@ -8661,6 +8831,13 @@
       <argument>false</argument>
       <argument type="service_closure" id="console.command.error_dumper"/>
     </service>
+    <service id=".console.command.mailer_test.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>mailer:test</argument>
+      <argument type="collection"/>
+      <argument>Test Mailer transports by sending an email</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="console.command.mailer_test"/>
+    </service>
     <service id=".twig.command.debug.lazy" class="Symfony\Component\Console\Command\LazyCommand">
       <argument>debug:twig</argument>
       <argument type="collection"/>
@@ -9025,7 +9202,7 @@
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <tag name="container.no_preload"/>
-      <argument type="service" id=".service_locator.irxvEc6"/>
+      <argument type="service" id=".service_locator.1WdsCEM"/>
       <argument type="collection">
         <argument key="about">console.command.about</argument>
         <argument key="assets:install">console.command.assets_install</argument>
@@ -9056,6 +9233,7 @@
         <argument key="secrets:decrypt-to-local">console.command.secrets_decrypt_to_local</argument>
         <argument key="secrets:encrypt-from-local">console.command.secrets_encrypt_from_local</argument>
         <argument key="error:dump">console.command.error_dumper</argument>
+        <argument key="mailer:test">console.command.mailer_test</argument>
         <argument key="debug:twig">twig.command.debug</argument>
         <argument key="lint:twig">twig.command.lint</argument>
         <argument key="server:dump">var_dumper.command.server_dump</argument>
@@ -9132,7 +9310,7 @@
         <argument key="make:filter">maker.auto_command.make_filter</argument>
       </argument>
     </service>
-    <service id=".service_locator.irxvEc6" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.1WdsCEM" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="console.command.about" type="service_closure" id=".console.command.about.lazy"/>
@@ -9164,6 +9342,7 @@
         <argument key="console.command.secrets_decrypt_to_local" type="service_closure" id=".console.command.secrets_decrypt_to_local.lazy"/>
         <argument key="console.command.secrets_encrypt_from_local" type="service_closure" id=".console.command.secrets_encrypt_from_local.lazy"/>
         <argument key="console.command.error_dumper" type="service_closure" id=".console.command.error_dumper.lazy"/>
+        <argument key="console.command.mailer_test" type="service_closure" id=".console.command.mailer_test.lazy"/>
         <argument key="twig.command.debug" type="service_closure" id=".twig.command.debug.lazy"/>
         <argument key="twig.command.lint" type="service_closure" id=".twig.command.lint.lazy"/>
         <argument key="var_dumper.command.server_dump" type="service_closure" id=".var_dumper.command.server_dump.lazy"/>
@@ -9238,125 +9417,125 @@
       </argument>
     </service>
     <service id="cache.app.recorder_inner" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
-      <argument>hpBbQ0iRts</argument>
+      <argument>bhD+ZRatEz</argument>
       <argument>0</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\share\dev/pools/app</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/share/dev/pools/app</argument>
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
     </service>
     <service id="cache.system.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>RXorVDV8nb</argument>
+      <argument>onfStil4Fe</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.validator.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>6WzNLqpZ3H</argument>
+      <argument>ugYeU-fWwb</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.serializer.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>EmpMSlQtv9</argument>
+      <argument>eLEVkWtniT</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.property_info.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>ez2JSu08A4</argument>
+      <argument>rduCRuTlja</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.validator_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>uLqUnQdHLA</argument>
+      <argument>PqmLuTlqhX</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.doctrine.orm.default.result.recorder_inner" class="Symfony\Component\Cache\Adapter\ArrayAdapter"/>
     <service id="cache.doctrine.orm.default.query.recorder_inner" class="Symfony\Component\Cache\Adapter\ArrayAdapter"/>
     <service id="cache.security_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>0t4s55Wpk1</argument>
+      <argument>C9o20OanEL</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.security_is_granted_attribute_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>PvJatTdg3X</argument>
+      <argument>SW8fP4D5XK</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.security_is_csrf_token_valid_attribute_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>DmumZ8X7Vd</argument>
+      <argument>N+j6iWLZ6f</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="api_platform.cache.route_name_resolver.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>wFXT8NUh61</argument>
+      <argument>nZ-aTACbIm</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="api_platform.cache.metadata.resource.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>1ONzXu6f42</argument>
+      <argument>rLDBcw+oM7</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="api_platform.cache.metadata.property.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>-xtX5dmIXh</argument>
+      <argument>Du14KIJxDR</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="api_platform.cache.metadata.resource_collection.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>kYRZu4NO7k</argument>
+      <argument>5VA2iXRH98</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="api_platform.cache.metadata.operation.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>3NoGu3r6jr</argument>
+      <argument>GJMo1npFhf</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="api_platform.cache.openapi.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <argument>igVKWvGMOL</argument>
+      <argument>wwFnMRtL-H</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>C:\wamp64\www\corpstarterAPI\var\cache\dev/pools/system</argument>
+      <argument>/Users/maryamcisse/CorpStarter/backend/corpstarterAPI/var/cache/dev/pools/system</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -9403,6 +9582,10 @@
     <service id="Symfony\Contracts\Cache\NamespacedPoolInterface" alias="cache.app"/>
     <service id="Symfony\Contracts\Cache\TagAwareCacheInterface" alias="cache.app.taggable"/>
     <service id="Symfony\Component\Asset\Packages" alias="assets.packages"/>
+    <service id="mailer" alias="mailer.mailer"/>
+    <service id="Symfony\Component\Mailer\MailerInterface" alias="mailer.mailer"/>
+    <service id="mailer.default_transport" alias="mailer.transports"/>
+    <service id="Symfony\Component\Mailer\Transport\TransportInterface" alias="mailer.transports"/>
     <service id="Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter" alias="debug.file_link_formatter"/>
     <service id="Symfony\Component\Stopwatch\Stopwatch" alias="debug.stopwatch"/>
     <service id="router" alias="router.default" public="true"/>
@@ -9449,7 +9632,10 @@
     <service id="Symfony\Component\Security\Csrf\CsrfTokenManagerInterface" alias="security.csrf.token_manager"/>
     <service id="Symfony\Component\Validator\Validator\ValidatorInterface" alias="debug.validator"/>
     <service id="validator.mapping.class_metadata_factory" alias="debug.validator"/>
+    <service id="Symfony\Component\Mime\MimeTypesInterface" alias="mime_types"/>
+    <service id="Symfony\Component\Mime\MimeTypeGuesserInterface" alias="mime_types"/>
     <service id="Twig\Environment" alias="twig"/>
+    <service id="Symfony\Component\Mime\BodyRendererInterface" alias="twig.mime_body_renderer"/>
     <service id="logger" alias="monolog.logger"/>
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="Doctrine\DBAL\Connection" alias="doctrine.dbal.default_connection"/>
@@ -9562,6 +9748,8 @@
     <service id="Psr\Log\LoggerInterface $consoleLogger" alias="monolog.logger.console"/>
     <service id=".Psr\Log\LoggerInterface $cache" alias="monolog.logger.cache"/>
     <service id="Psr\Log\LoggerInterface $cacheLogger" alias="monolog.logger.cache"/>
+    <service id=".Psr\Log\LoggerInterface $mailer" alias="monolog.logger.mailer"/>
+    <service id="Psr\Log\LoggerInterface $mailerLogger" alias="monolog.logger.mailer"/>
     <service id=".Psr\Log\LoggerInterface $php" alias="monolog.logger.php"/>
     <service id="Psr\Log\LoggerInterface $phpLogger" alias="monolog.logger.php"/>
     <service id=".Psr\Log\LoggerInterface $event" alias="monolog.logger.event"/>
