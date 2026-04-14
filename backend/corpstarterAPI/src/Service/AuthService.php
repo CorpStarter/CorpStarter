@@ -116,6 +116,7 @@ class AuthService
         return [
             'token' => $token,
             'user_id' => $user->getId(),
+            'role' => $user->getUserType()->getName(),
             'message' => 'Logged in successfully'
         ];
     }
