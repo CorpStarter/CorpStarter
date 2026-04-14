@@ -516,6 +516,96 @@
             "description": "Join a project as attendee. Cannot join if project is rejected or already joined."
           },
           "response": []
+        },
+        {
+          "name": "Leave Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{user_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/projects/1/leave",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects",
+                "1",
+                "leave"
+              ]
+            },
+            "description": "Leave a project as attendee."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Joined Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects/1/joined-users?token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects",
+                "1",
+                "joined-users"
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get all users who have joined this project."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Project Statuses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects/status?token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get all available project statuses."
+          },
+          "response": []
         }
       ]
     },
