@@ -1,0 +1,31 @@
+framework:
+    workflows:
+        project_publishing:
+            type: 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                - App\Entity\Project
+            initial_marking: draft
+            places:
+                - draft
+                - pending
+                - published
+                - funded
+                - expired
+            transitions:
+                submit_for_review:
+                    from: draft
+                    to:   pending
+                publish:
+                    from: pending
+                    to:   published
+                mark_as_funded:
+                    from: published
+                    to:   funded
+                expire:
+                    from: published
+                    to:   expired
