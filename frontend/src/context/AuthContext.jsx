@@ -19,12 +19,19 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  const register = async (userData) => {
+    try {
+      const response = await apiClient.post('/auth/register', userData);
+      return { success: true, message: response.data.message };
+    } catch (error) {
+      return { success: false, error: error.response?.data?.error || "Erreur d'inscription" };
+    }
+  };
+
   const login = async (email, password) => {
     try {
       const response = await apiClient.post('/auth/login', { email, password });
       const { token, user_id, role, balance = 500000 } = response.data;
-      
-      //const role = email.includes('direction') ? 'Admin' : 'User';
       
       localStorage.setItem('token', token);
       localStorage.setItem('userId', user_id);
@@ -34,7 +41,7 @@ export const AuthProvider = ({ children }) => {
       setUser({ id: parseInt(user_id), token, role, balance });
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.response?.data?.error || "Erreur" };
+      return { success: false, error: error.response?.data?.error || "Erreur de connexion" };
     }
   };
 
@@ -49,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, updateBalance }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, updateBalance }}>
       {!loading && children}
     </AuthContext.Provider>
   );

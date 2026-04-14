@@ -25,16 +25,25 @@ class ProjectController extends AbstractController
         $token = null;
 
         // Try to get token from query string first (for GET requests)
-        $token = $request->query->get('token');
+        $authHeader = $request->headers->get('Authorization');
+        if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
+            $token = substr($authHeader, 7);
+        }
+
+        if (!$token) {
+            $token = $request->query->get('token');
+        }
 
         // If not in query string, try from JSON body (for POST/PUT requests)
         if (!$token && $request->getContent()) {
             $data = json_decode($request->getContent(), true);
-            $token = $data['token'] ?? null;
+            if (is_array($data)) {
+                $token = $data['token'] ?? null;
+            }
         }
 
         if (!$token) {
-            throw new UnauthorizedHttpException('Bearer', 'Not logged in - token required in body or query');
+            throw new UnauthorizedHttpException('Bearer', 'Not logged in - token required');
         }
 
         $user = $this->authService->validateToken($token);
@@ -73,13 +82,29 @@ class ProjectController extends AbstractController
     {
         try {
             $user = $this->getAuthenticatedUser($request);
-            $data = json_decode($request->getContent(), true);
+
+            $name = $request->request->get('name', '');
+            $requestedBudget = $request->request->get('requested_budget', '');
+            $description = $request->request->get('description', '');
+            
+            $imageFile = $request->files->get('image');
+            $illustrationPath = 'default.jpg'; 
+
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                
+                $imageFile->move(
+                    $this->getParameter('kernel.project_dir').'/public/uploads',
+                    $newFilename
+                );
+                $illustrationPath = $newFilename;
+            }
 
             $result = $this->projectService->createProject(
-                $data['name'] ?? '',
-                $data['requested_budget'] ?? '',
-                $data['illustration_path'] ?? '',
-                $data['description'] ?? '',
+                $name,
+                $requestedBudget,
+                $illustrationPath,
+                $description,
                 $user
             );
 

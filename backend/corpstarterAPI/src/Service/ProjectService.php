@@ -127,7 +127,7 @@ class ProjectService
         }
 
         // Check if project is already validated
-        if ($project->getStatus()->isValidated()) {
+        if ($project->getStatus()->getStatusName() !== 'Pending') {
             throw new HttpException(422, 'Project already validated');
         }
 
@@ -162,7 +162,7 @@ class ProjectService
         }
 
         // Check if project is already validated
-        if ($project->getStatus()->isValidated()) {
+        if ($project->getStatus()->getStatusName() !== 'Pending') {
             throw new HttpException(422, 'Project already validated');
         }
 
@@ -192,6 +192,24 @@ class ProjectService
         $this->entityManager->flush();
 
         return ['message' => 'Joined project successfully'];
+    }
+
+    public function leaveProject(int $projectId, Users $user): array
+    {
+        $project = $this->projectRepository->find($projectId);
+
+        if (!$project) {
+            throw new NotFoundHttpException('Project not found');
+        }
+
+        if (!$project->getAttendees()->contains($user)) {
+            throw new ConflictHttpException('Not an attendee');
+        }
+
+        $project->removeAttendee($user);
+        $this->entityManager->flush();
+
+        return ['message' => 'Left project successfully'];
     }
 
     public function getJoinedUsers(int $projectId): array
@@ -239,6 +257,7 @@ class ProjectService
             'status' => $project->getStatus()?->getStatusName(),
             'requester' => $project->getRequester()?->getUsername(),
             'approver' => $project->getApprover()?->getUsername(),
+            'attendees_count' => count($project->getAttendees()), 
         ];
     }
 
