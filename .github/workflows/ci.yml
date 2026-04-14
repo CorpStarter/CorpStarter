@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend # Indispensable pour le Monorepo
+        working-directory: ./backend/EasyAdmin # Symfony est ici !
     steps:
       - uses: actions/checkout@v4
 
@@ -29,6 +29,8 @@ jobs:
 
       - name: Check Symfony Syntax (Lint)
         run: php bin/console lint:container
+        env:
+          APP_ENV: test
 
   # --- PARTIE FRONTEND (REACT) ---
   frontend-build:
@@ -90,4 +92,5 @@ jobs:
       - name: Doctrine Migrations
         run: php bin/console doctrine:migrations:migrate --no-interaction
         env:
+          APP_ENV: test
           DATABASE_URL: 'mysql://test:test@127.0.0.1:3306/corpstarter_test'
