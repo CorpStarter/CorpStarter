@@ -210,6 +210,16 @@ class ProjectService
         ];
     }
 
+    public function getAllStatuses(): array
+    {
+        $statuses = $this->projectStatusRepository->findAll();
+
+        return array_map(fn($s) => [
+            'id' => $s->getId(),
+            'status_name' => $s->getStatusName()
+        ], $statuses);  
+    }
+
     private function projectToArray(Project $project): array
     {
         return [

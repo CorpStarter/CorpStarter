@@ -251,4 +251,17 @@ class ProjectController extends AbstractController
             return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
+
+    #[Route('/status', name: 'app_project_get_status', methods: ['GET'])]
+    public function getStatus(Request $request): JsonResponse
+    {
+        try {
+            $this->getAuthenticatedUser($request); // Just to check authentication
+            $result = $this->projectService->getAllStatuses();
+            return $this->json($result, 200);
+        } catch (\Exception $e) {
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
+        }
+    }
 }

@@ -9,3 +9,5 @@ VALUES ("Admin",now(),true),("User",now(),false);
 
 insert into project_status(creation_date ,status_name, validated)
 VALUES (now(),"Pending", false),(now(),"Approved", true),(now(),"Rejected", false);
+
+alter table project add column description varchar(1024) not null;
