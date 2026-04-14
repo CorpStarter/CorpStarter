@@ -3,13 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\ProjectStatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource]
-#[ORM\Entity(repositoryClass: ProjectStatusRepository::class)]
+#[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
 class ProjectStatus
 {

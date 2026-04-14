@@ -15,10 +15,10 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./backend/EasyAdmin
       dockerfile: docker/Dockerfile
     volumes:
-      - ./backend:/var/www/html
+      - ./backend/EasyAdmin:/var/www/html
     ports:
       - "8000:80"
     depends_on:
