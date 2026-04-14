@@ -5,8 +5,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: corpstarter
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      # On met les vrais accès de l'API ici :
+      MYSQL_USER: corpstarter
+      MYSQL_PASSWORD: "Po@rmsoigshknn549073" 
     ports:
       - "3306:3306"
     volumes:

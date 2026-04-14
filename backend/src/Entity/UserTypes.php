@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserTypesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-use ApiPlatform\Metadata\ApiResource;
-
-#[ORM\Entity(repositoryClass: UserTypesRepository::class)]
 #[ApiResource]
+#[ORM\Entity(repositoryClass: UserTypesRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class UserTypes
 {
     #[ORM\Id]
@@ -25,7 +25,7 @@ class UserTypes
     private ?\DateTime $creation_date = null;
 
     #[ORM\Column]
-    private ?bool $canAcceptProject = null;
+    private ?bool $canAcceptProject = false; // Valeur par défaut pour éviter le "Null"
 
     /**
      * @var Collection<int, Users>
@@ -36,7 +36,25 @@ class UserTypes
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->creation_date = new \DateTime(); // Date par défaut à la création
     }
+
+    // --- MÉTHODES MAGIQUES ---
+
+    public function __toString(): string
+    {
+        return (string) $this->name;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreationDateValue(): void
+    {
+        if ($this->creation_date === null) {
+            $this->creation_date = new \DateTime();
+        }
+    }
+
+    // --- GETTERS & SETTERS ---
 
     public function getId(): ?int
     {
@@ -51,7 +69,6 @@ class UserTypes
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -63,7 +80,6 @@ class UserTypes
     public function setCreationDate(\DateTime $creation_date): static
     {
         $this->creation_date = $creation_date;
-
         return $this;
     }
 
@@ -75,13 +91,9 @@ class UserTypes
     public function setCanAcceptProject(bool $canAcceptProject): static
     {
         $this->canAcceptProject = $canAcceptProject;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Users>
-     */
     public function getUsers(): Collection
     {
         return $this->users;
@@ -93,19 +105,16 @@ class UserTypes
             $this->users->add($user);
             $user->setUserType($this);
         }
-
         return $this;
     }
 
     public function removeUser(Users $user): static
     {
         if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
             if ($user->getUserType() === $this) {
                 $user->setUserType(null);
             }
         }
-
         return $this;
     }
 }

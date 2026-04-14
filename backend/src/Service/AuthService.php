@@ -59,7 +59,7 @@ class AuthService
 
         // Generate token
         $token = bin2hex(random_bytes(32));
-        $user->setToken($token);
+        $user->setConnectionToken($token);
         $user->setTokenDate(new \DateTime());
 
         $this->entityManager->persist($user);
@@ -74,7 +74,7 @@ class AuthService
 
     public function verifyEmail(string $token): array
     {
-        $user = $this->usersRepository->findOneBy(['token' => $token]);
+        $user = $this->usersRepository->findOneBy(['connection_token' => $token]);
 
         if (!$user) {
             throw new NotFoundHttpException('User not found or invalid token');
@@ -108,7 +108,7 @@ class AuthService
 
         // Generate new token
         $token = bin2hex(random_bytes(32));
-        $user->setToken($token);
+        $user->setConnectionToken($token);
         $user->setTokenDate(new \DateTime());
 
         $this->entityManager->flush();
@@ -123,6 +123,6 @@ class AuthService
 
     public function validateToken(string $token): ?Users
     {
-        return $this->usersRepository->findOneBy(['token' => $token]);
+        return $this->usersRepository->findOneBy(['connection_token' => $token]);
     }
 }

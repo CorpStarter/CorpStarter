@@ -1,0 +1,20 @@
+
+services:
+###> doctrine/doctrine-bundle ###
+
+  database:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: corpstarter
+      MYSQL_USER: corpstarter
+      MYSQL_PASSWORD: "Po@rmsoigshknn549073" # On met des guillemets à cause du @
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 5
+    volumes:
+      - database_data:/var/lib/mysql:rw
+###< doctrine/doctrine-bundle ###
