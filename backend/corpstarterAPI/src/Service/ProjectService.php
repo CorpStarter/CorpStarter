@@ -24,6 +24,7 @@ class ProjectService
         string $name,
         string $requestedBudget,
         string $illustrationPath,
+        string $description,
         Users $requester
     ): array {
         if (!$name) {
@@ -35,6 +36,7 @@ class ProjectService
         $project->setRequestedBudget($requestedBudget);
         $project->setAllocatedBudget(0);
         $project->setIllustrationPath($illustrationPath);
+        $project->setDescription($description);
         $project->setCreationDate(new \DateTime());
         $project->setRequester($requester);
 
@@ -111,7 +113,8 @@ class ProjectService
         Users $user,
         ?string $name = null,
         ?string $requestedBudget = null,
-        ?string $illustrationPath = null
+        ?string $illustrationPath = null,
+        ?string $description = null
     ): array {
         $project = $this->projectRepository->find($projectId);
 
@@ -136,6 +139,9 @@ class ProjectService
         }
         if ($illustrationPath) {
             $project->setIllustrationPath($illustrationPath);
+        }
+        if ($description) {
+            $project->setDescription($description);
         }
 
         $this->entityManager->flush();
@@ -225,6 +231,7 @@ class ProjectService
         return [
             'id' => $project->getId(),
             'name' => $project->getName(),
+            'description' => $project->getDescription(),
             'requested_budget' => $project->getRequestedBudget(),
             'allocated_budget' => $project->getAllocatedBudget(),
             'illustration_path' => $project->getIllustrationPath(),

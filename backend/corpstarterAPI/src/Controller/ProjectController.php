@@ -79,6 +79,7 @@ class ProjectController extends AbstractController
                 $data['name'] ?? '',
                 $data['requested_budget'] ?? '',
                 $data['illustration_path'] ?? '',
+                $data['description'] ?? '',
                 $user
             );
 
@@ -162,7 +163,8 @@ class ProjectController extends AbstractController
                 $user,
                 $data['name'] ?? null,
                 $data['requested_budget'] ?? null,
-                $data['illustration_path'] ?? null
+                $data['illustration_path'] ?? null,
+                $data['description'] ?? null
             );
 
             return $this->json($result, 200);
