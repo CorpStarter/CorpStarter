@@ -2,283 +2,293 @@
 
 namespace App\Controller;
 
-use App\Entity\Project;
-use App\Entity\Users;
-use App\Repository\ProjectRepository;
-use App\Repository\UsersRepository;
+use App\Service\AuthService;
+use App\Service\ProjectService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\ORM\EntityManagerInterface;
 
-#[Route('/api/projects', name: 'api_projects_')]
+#[Route('/projects')]
 class ProjectController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ProjectRepository $projectRepository,
-        private UsersRepository $usersRepository
-    ) {}
-
-    #[Route('', name: 'list', methods: ['GET'])]
-    public function list(Request $request): JsonResponse
-    {
-        try {
-            $token = $request->query->get('token');
-            if (!$token) {
-                return new JsonResponse(['error' => 'Token required'], 400);
-            }
-
-            $user = $this->usersRepository->findOneBy(['conection_token' => $token]);
-            if (!$user || !$user->getTokenDate() || (new \DateTime())->diff($user->getTokenDate())->i > 30) {
-                return new JsonResponse(['error' => 'Invalid or expired token'], 401);
-            }
-
-            $userId = $request->query->get('user_id');
-            if ($userId) {
-                $projects = $this->projectRepository->findBy(['requester' => $userId]);
-            } else {
-                $projects = $this->projectRepository->findAll();
-            }
-
-            $projectsData = [];
-            foreach ($projects as $project) {
-                $projectsData[] = [
-                    'id' => $project->getId(),
-                    'name' => $project->getName(),
-                    'requested_budget' => $project->getRequestedBudget(),
-                    'allocated_budget' => $project->getAllocatedBudget(),
-                    'creation_date' => $project->getCreationDate()->format('Y-m-d H:i:s'),
-                    'status' => $project->getStatus()?->getStatusName(),
-                    'illustration_path' => $project->getIllustrationPath()
-                ];
-            }
-
-            return new JsonResponse(['projects' => $projectsData]);
-        } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 500);
-        }
+        private ProjectService $projectService,
+        private AuthService $authService,
+    ) {
     }
 
-    #[Route('', name: 'create', methods: ['POST'])]
+    private function getAuthenticatedUser(Request $request)
+    {
+        $token = null;
+
+        // Try to get token from query string first (for GET requests)
+        $authHeader = $request->headers->get('Authorization');
+        if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
+            $token = substr($authHeader, 7);
+        }
+
+        if (!$token) {
+            $token = $request->query->get('token');
+        }
+
+        // If not in query string, try from JSON body (for POST/PUT requests)
+        if (!$token && $request->getContent()) {
+            $data = json_decode($request->getContent(), true);
+            if (is_array($data)) {
+                $token = $data['token'] ?? null;
+            }
+        }
+
+        if (!$token) {
+            throw new UnauthorizedHttpException('Bearer', 'Not logged in - token required');
+        }
+
+        $user = $this->authService->validateToken($token);
+
+        if (!$user) {
+            throw new UnauthorizedHttpException('Bearer', 'Not logged in - invalid token');
+        }
+
+        return $user;
+    }
+
+    /**
+     * Create a new project
+     * 
+     * @OA\Post(
+     *     path="/projects",
+     *     summary="Create a new project",
+     *     tags={"Projects"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name","requested_budget","illustration_path"},
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="requested_budget", type="string"),
+     *             @OA\Property(property="illustration_path", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Project created"),
+     *     @OA\Response(response=400, description="Missing project name"),
+     *     @OA\Response(response=401, description="Not logged in")
+     * )
+     */
+    #[Route('', name: 'app_project_create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
         try {
-            $token = $request->query->get('token');
-            if (!$token) {
-                return new JsonResponse(['error' => 'Token required'], 400);
+            $user = $this->getAuthenticatedUser($request);
+
+            $name = $request->request->get('name', '');
+            $requestedBudget = $request->request->get('requested_budget', '');
+            $description = $request->request->get('description', '');
+            
+            $imageFile = $request->files->get('image');
+            $illustrationPath = 'default.jpg'; 
+
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                
+                $imageFile->move(
+                    $this->getParameter('kernel.project_dir').'/public/uploads',
+                    $newFilename
+                );
+                $illustrationPath = $newFilename;
             }
 
-            $user = $this->usersRepository->findOneBy(['conection_token' => $token]);
-            if (!$user || !$user->getTokenDate() || (new \DateTime())->diff($user->getTokenDate())->i > 30) {
-                return new JsonResponse(['error' => 'Invalid or expired token'], 401);
-            }
+            $result = $this->projectService->createProject(
+                $name,
+                $requestedBudget,
+                $illustrationPath,
+                $description,
+                $user
+            );
 
-            $data = json_decode($request->getContent(), true);
-
-            if (!isset($data['name'], $data['user_id'])) {
-                return new JsonResponse(['error' => 'Name and user_id required'], 400);
-            }
-
-            $user = $this->usersRepository->find($data['user_id']);
-            if (!$user) {
-                return new JsonResponse(['error' => 'User not found'], 404);
-            }
-
-            // Vérifier que l'utilisateur a le droit de créer un projet
-            $userType = $user->getUserType();
-            if (!$userType || !$userType->isCanAcceptProject()) {
-                return new JsonResponse(['error' => 'User not authorized to create projects'], 403);
-            }
-
-            $project = new Project();
-            $project->setName($data['name']);
-            $project->setRequestedBudget($data['requested_budget'] ?? null);
-            $project->setIllustrationPath($data['illustration_path'] ?? null);
-            $project->setCreationDate(new \DateTime());
-            $project->addRequester($user);
-
-            $this->entityManager->persist($project);
-            $this->entityManager->flush();
-
-            return new JsonResponse([
-                'message' => 'Project created successfully',
-                'project' => [
-                    'id' => $project->getId(),
-                    'name' => $project->getName(),
-                    'requested_budget' => $project->getRequestedBudget(),
-                    'creation_date' => $project->getCreationDate()->format('Y-m-d H:i:s')
-                ]
-            ], 201);
+            return $this->json($result, 201);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 500);
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 
-    #[Route('/{id}', name: 'edit', methods: ['PUT', 'PATCH'])]
-    public function edit(int $id, Request $request): JsonResponse
+    /**
+     * List all projects with optional filters
+     * 
+     * @OA\Get(
+     *     path="/projects",
+     *     summary="Get all projects",
+     *     tags={"Projects"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(name="status", in="query", type="string", description="Filter by status name"),
+     *     @OA\Parameter(name="name", in="query", type="string", description="Filter by project name (like)"),
+     *     @OA\Parameter(name="created_before", in="query", type="string", description="Filter by creation date before"),
+     *     @OA\Parameter(name="created_after", in="query", type="string", description="Filter by creation date after"),
+     *     @OA\Parameter(name="requester_name", in="query", type="string", description="Filter by requester name (like)"),
+     *     @OA\Parameter(name="approver_name", in="query", type="string", description="Filter by approver name (like)"),
+     *     @OA\Response(response=200, description="List of projects"),
+     *     @OA\Response(response=401, description="Unauthorized")
+     * )
+     */
+    #[Route('', name: 'app_project_list', methods: ['GET'])]
+    public function list(Request $request): JsonResponse
     {
         try {
-            $data = json_decode($request->getContent(), true);
-            $userId = $data['user_id'] ?? null;
+            $this->getAuthenticatedUser($request); // Just to check authentication, we don't need the user object here
 
-            if (!$userId) {
-                return new JsonResponse(['error' => 'user_id required'], 400);
-            }
+            $result = $this->projectService->getProjects(
+                $request->query->get('status'),
+                $request->query->get('name'),
+                $request->query->get('created_before'),
+                $request->query->get('created_after'),
+                $request->query->get('requester_name'),
+                $request->query->get('approver_name')
+            );
 
-            $token = $request->query->get('token');
-            if (!$token) {
-                return new JsonResponse(['error' => 'Token required'], 400);
-            }
-
-            $user = $this->usersRepository->findOneBy(['conection_token' => $token]);
-            if (!$user || !$user->getTokenDate() || (new \DateTime())->diff($user->getTokenDate())->i > 30) {
-                return new JsonResponse(['error' => 'Invalid or expired token'], 401);
-            }
-
-            $project = $this->projectRepository->find($id);
-            if (!$project) {
-                return new JsonResponse(['error' => 'Project not found'], 404);
-            }
-
-            $user = $this->usersRepository->find($userId);
-            if (!$user) {
-                return new JsonResponse(['error' => 'User not found'], 404);
-            }
-
-            // Vérifier que l'utilisateur est propriétaire du projet
-            if (!$project->getRequester()->contains($user)) {
-                return new JsonResponse(['error' => 'Unauthorized'], 403);
-            }
-
-            // Vérifier que le projet n'est pas validé
-            if ($project->getStatus() && $project->getStatus()->getId() !== 1) {
-                return new JsonResponse(['error' => 'Cannot edit validated project'], 403);
-            }
-
-            if (isset($data['name'])) {
-                $project->setName($data['name']);
-            }
-            if (isset($data['requested_budget'])) {
-                $project->setRequestedBudget($data['requested_budget']);
-            }
-            if (isset($data['illustration_path'])) {
-                $project->setIllustrationPath($data['illustration_path']);
-            }
-
-            $this->entityManager->flush();
-
-            return new JsonResponse([
-                'message' => 'Project updated successfully',
-                'project' => [
-                    'id' => $project->getId(),
-                    'name' => $project->getName(),
-                    'requested_budget' => $project->getRequestedBudget()
-                ]
-            ]);
+            return $this->json($result, 200);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 500);
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 
-    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
+    /**
+     * Update an existing project
+     * 
+     * @OA\Put(
+     *     path="/projects/{id}",
+     *     summary="Update a project",
+     *     tags={"Projects"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="requested_budget", type="string"),
+     *             @OA\Property(property="illustration_path", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Project updated"),
+     *     @OA\Response(response=403, description="Not the owner"),
+     *     @OA\Response(response=422, description="Project already validated")
+     * )
+     */
+    #[Route('/{id}', name: 'app_project_update', methods: ['PUT'])]
+    public function update(int $id, Request $request): JsonResponse
+    {
+        try {
+            $user = $this->getAuthenticatedUser($request);
+            $data = json_decode($request->getContent(), true);
+
+            $result = $this->projectService->updateProject(
+                $id,
+                $user,
+                $data['name'] ?? null,
+                $data['requested_budget'] ?? null,
+                $data['illustration_path'] ?? null,
+                $data['description'] ?? null
+            );
+
+            return $this->json($result, 200);
+        } catch (\Exception $e) {
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
+        }
+    }
+
+    /**
+     * Delete a project
+     * 
+     * @OA\Delete(
+     *     path="/projects/{id}",
+     *     summary="Delete a project",
+     *     tags={"Projects"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @OA\Response(response=204, description="Project deleted"),
+     *     @OA\Response(response=403, description="Not the owner"),
+     *     @OA\Response(response=422, description="Project already validated")
+     * )
+     */
+    #[Route('/{id}', name: 'app_project_delete', methods: ['DELETE'])]
     public function delete(int $id, Request $request): JsonResponse
     {
         try {
-            $data = json_decode($request->getContent(), true);
-            $userId = $data['user_id'] ?? null;
-
-            if (!$userId) {
-                return new JsonResponse(['error' => 'user_id required'], 400);
-            }
-
-            $token = $request->query->get('token');
-            if (!$token) {
-                return new JsonResponse(['error' => 'Token required'], 400);
-            }
-
-            $user = $this->usersRepository->findOneBy(['conection_token' => $token]);
-            if (!$user || !$user->getTokenDate() || (new \DateTime())->diff($user->getTokenDate())->i > 30) {
-                return new JsonResponse(['error' => 'Invalid or expired token'], 401);
-            }
-
-            $project = $this->projectRepository->find($id);
-            if (!$project) {
-                return new JsonResponse(['error' => 'Project not found'], 404);
-            }
-
-            $user = $this->usersRepository->find($userId);
-            if (!$user) {
-                return new JsonResponse(['error' => 'User not found'], 404);
-            }
-
-            // Vérifier que l'utilisateur est propriétaire du projet
-            if (!$project->getRequester()->contains($user)) {
-                return new JsonResponse(['error' => 'Unauthorized'], 403);
-            }
-
-            // Vérifier que le projet n'est pas validé
-            if ($project->getStatus() && $project->getStatus()->getId() !== 1) {
-                return new JsonResponse(['error' => 'Cannot delete validated project'], 403);
-            }
-
-            $this->entityManager->remove($project);
-            $this->entityManager->flush();
-
-            return new JsonResponse(['message' => 'Project deleted successfully']);
+            $user = $this->getAuthenticatedUser($request);
+            $this->projectService->deleteProject($id, $user);
+            return $this->json(null, 204);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 500);
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 
-    #[Route('/{id}/join', name: 'join', methods: ['POST'])]
+    /**
+     * Join a project as attendee
+     * 
+     * @OA\Post(
+     *     path="/projects/{id}/join",
+     *     summary="Join a project",
+     *     tags={"Projects"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @OA\Response(response=200, description="Joined successfully"),
+     *     @OA\Response(response=404, description="Project not found"),
+     *     @OA\Response(response=409, description="Already joined")
+     * )
+     */
+    #[Route('/{id}/join', name: 'app_project_join', methods: ['POST'])]
     public function join(int $id, Request $request): JsonResponse
     {
         try {
-            $data = json_decode($request->getContent(), true);
-
-            if (!isset($data['user_id'])) {
-                return new JsonResponse(['error' => 'user_id required'], 400);
-            }
-
-            $token = $request->query->get('token');
-            if (!$token) {
-                return new JsonResponse(['error' => 'Token required'], 400);
-            }
-
-            $user = $this->usersRepository->findOneBy(['conection_token' => $token]);
-            if (!$user || !$user->getTokenDate() || (new \DateTime())->diff($user->getTokenDate())->i > 30) {
-                return new JsonResponse(['error' => 'Invalid or expired token'], 401);
-            }
-
-            $project = $this->projectRepository->find($id);
-            if (!$project) {
-                return new JsonResponse(['error' => 'Project not found'], 404);
-            }
-
-            $user = $this->usersRepository->find($data['user_id']);
-            if (!$user) {
-                return new JsonResponse(['error' => 'User not found'], 404);
-            }
-
-            // Vérifier que l'utilisateur n'est pas déjà dans le projet
-            if ($project->getRequester()->contains($user)) {
-                return new JsonResponse(['error' => 'User already in project'], 409);
-            }
-
-            $project->addRequester($user);
-            $this->entityManager->flush();
-
-            return new JsonResponse([
-                'message' => 'Successfully joined project',
-                'project' => [
-                    'id' => $project->getId(),
-                    'name' => $project->getName()
-                ]
-            ]);
+            $user = $this->getAuthenticatedUser($request);
+            $result = $this->projectService->joinProject($id, $user);
+            return $this->json($result, 200);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 500);
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
+        }
+    }
+
+    #[Route('/{id}/leave', name: 'app_project_leave', methods: ['POST'])]
+    public function leave(int $id, Request $request): JsonResponse
+    {
+        try {
+            $user = $this->getAuthenticatedUser($request);
+            $result = $this->projectService->leaveProject($id, $user);
+            return $this->json($result, 200);
+        } catch (\Exception $e) {
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
+        }
+    }
+
+    #[Route('/{id}/joined-users', name: 'app_project_get_joined_users', methods: ['GET'])]
+    public function getJoinedUsers(int $id, Request $request): JsonResponse
+    {
+        try {
+            $this->getAuthenticatedUser($request); // Just to check authentication
+            $result = $this->projectService->getJoinedUsers($id);
+            return $this->json($result, 200);
+        } catch (\Exception $e) {
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
+        }
+    }
+
+    #[Route('/status', name: 'app_project_get_status', methods: ['GET'])]
+    public function getStatus(Request $request): JsonResponse
+    {
+        try {
+            $this->getAuthenticatedUser($request); // Just to check authentication
+            $result = $this->projectService->getAllStatuses();
+            return $this->json($result, 200);
+        } catch (\Exception $e) {
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 }

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: UserTypesRepository::class)]
-#[ORM\HasLifecycleCallbacks] // Indispensable pour la date auto
+#[ORM\HasLifecycleCallbacks]
 class UserTypes
 {
     #[ORM\Id]

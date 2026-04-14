@@ -1,0 +1,803 @@
+{
+  "info": {
+    "_postman_id": "b88eff50-7c95-4c0c-bda2-246516520f4d",
+    "name": "CorpStarter API",
+    "description": "API Platform - Authentication, Projects & Admin Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31486713"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"User_sophie\",\n  \"last_name\": \"Perret\",\n  \"first_name\": \"Sophie\",\n  \"password\": \"Password123!\",\n  \"email\": \"sophie.user@example.com\",\n  \"user_type\": \"User\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/auth/register",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Create a new user account. Returns token and user ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin_sophie\",\n  \"last_name\": \"Dubois\",\n  \"first_name\": \"Sophie\",\n  \"password\": \"AdminPass123!\",\n  \"email\": \"sophie.admin@example.com\",\n  \"user_type\": \"Admin\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/auth/register",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Create a new admin account. Returns token and user ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{user_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/auth/verify-email",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "auth",
+                "verify-email"
+              ]
+            },
+            "description": "Verify user email with token. Sets email_confirmed to true."
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"sophie.user@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/auth/login",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Login with email and password. Returns authentication token."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Installation d'un mur végétal dans l'openspace\",\n  \"requested_budget\": \"490\",\n  \"illustration_path\": \"/images/ecommerce-app.jpg\",\n  \"token\": \"{{user_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/projects",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects"
+              ]
+            },
+            "description": "Create a new project with status 'Pending'. Requires authentication."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects?token=8c519e9bba913f0e74927a7528be0160171f36fda8b90d1d83ab748944ca2df0",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "8c519e9bba913f0e74927a7528be0160171f36fda8b90d1d83ab748944ca2df0"
+                }
+              ]
+            },
+            "description": "Get all projects. Requires authentication."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Projects - Filter by Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects?status=Pending&token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "Pending"
+                },
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get projects filtered by status name."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Projects - Filter by Name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects?name=baby&token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "baby"
+                },
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get projects filtered by name (like search)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Projects - Filter by Created After",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects?created_after=2026-04-08&token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "created_after",
+                  "value": "2026-04-08"
+                },
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get projects created after a specific date."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Projects - Filter by Created Before",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects?created_before=2026-04-10&token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "created_before",
+                  "value": "2026-04-10"
+                },
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get projects created before a specific date."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Projects - Filter by Requester",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects?requester_name=sophie&token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "requester_name",
+                  "value": "sophie"
+                },
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get projects filtered by requester name (like search)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Projects - Filter by Approver",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects?approver_name=sophie&token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "approver_name",
+                  "value": "sophie"
+                },
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get projects filtered by approver name (like search)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Projects - Multiple Filters",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects?status=Pending&name=Mobile&requester_name=john&token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "Pending"
+                },
+                {
+                  "key": "name",
+                  "value": "Mobile"
+                },
+                {
+                  "key": "requester_name",
+                  "value": "john"
+                },
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get projects with multiple filters combined."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Application Mobile E-Commerce v2\",\n  \"requested_budget\": \"18000.00\",\n  \"illustration_path\": \"/images/ecommerce-app-v2.jpg\",\n  \"token\" : \"{{user_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/projects/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects",
+                "1"
+              ]
+            },
+            "description": "Update a project. Only owner can update. Fields are optional."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects",
+                "1"
+              ]
+            },
+            "description": "Delete a project. Only owner can delete. Cannot delete if validated."
+          },
+          "response": []
+        },
+        {
+          "name": "Join Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\" : \"{{user_token}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/projects/1/join",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects",
+                "1",
+                "join"
+              ]
+            },
+            "description": "Join a project as attendee. Cannot join if project is rejected or already joined."
+          },
+          "response": []
+        },
+        {
+          "name": "Leave Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{user_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/projects/1/leave",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects",
+                "1",
+                "leave"
+              ]
+            },
+            "description": "Leave a project as attendee."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Joined Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects/1/joined-users?token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects",
+                "1",
+                "joined-users"
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get all users who have joined this project."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Project Statuses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/projects/status?token={{user_token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "projects",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "{{user_token}}"
+                }
+              ]
+            },
+            "description": "Get all available project statuses."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Update Project Status & Budget",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Approved\",\n  \"allocated_budget\": \"14000.00\",\n  \"token\": \"{{admin_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/admin/projects/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "admin",
+                "projects",
+                "1"
+              ]
+            },
+            "description": "Update project status and/or budget. Admin only. Sets approver to current admin."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Project Status Only",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Rejected\",\n  \"token\": \"{{admin_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/admin/projects/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "admin",
+                "projects",
+                "1"
+              ]
+            },
+            "description": "Update only project status. Admin only."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Project Budget Only",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"allocated_budget\": \"0\",\n  \"token\": \"{{admin_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/admin/projects/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "admin",
+                "projects",
+                "1"
+              ]
+            },
+            "description": "Update only allocated budget. Admin only."
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Project",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Rejected\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/admin/projects/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "admin",
+                "projects",
+                "1"
+              ]
+            },
+            "description": "Reject a project. Admin only."
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Project",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Completed\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/admin/projects/1",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "admin",
+                "projects",
+                "1"
+              ]
+            },
+            "description": "Mark a project as completed. Admin only."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "http://corpstarterapi",
+      "type": "string"
+    },
+    {
+      "key": "user_token",
+      "value": "",
+      "type": "string",
+      "description": "User authentication token (from register or login)"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string",
+      "description": "Admin authentication token (from admin register or login)"
+    }
+  ]
+}

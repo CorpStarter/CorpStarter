@@ -82,34 +82,21 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     // --- MÉTHODES OBLIGATOIRES POUR LA SÉCURITÉ SYMFONY ---
 
-    /**
-     * Retourne le mot de passe hashé
-     */
     public function getPassword(): ?string
     {
         return $this->password_hash;
     }
 
-    /**
-     * Retourne l'identifiant unique (ici l'email)
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * Retourne les rôles de l'utilisateur
-     */
     public function getRoles(): array
     {
-        // On donne ROLE_USER à tout le monde par défaut
         return ['ROLE_USER'];
     }
 
-    /**
-     * Supprime les données sensibles en clair (non utilisé ici)
-     */
     public function eraseCredentials(): void
     {
     }

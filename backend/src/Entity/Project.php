@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
-#[ORM\HasLifecycleCallbacks] // Pour la date auto
+#[ORM\HasLifecycleCallbacks]
 class Project
 {
     #[ORM\Id]
@@ -49,10 +49,13 @@ class Project
     #[ORM\JoinColumn(nullable: false)]
     private ?ProjectStatus $status = null;
 
+    #[ORM\Column(length: 1024, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->requester = new ArrayCollection();
-        $this->creation_date = new \DateTime(); // Date par défaut
+        $this->creation_date = new \DateTime();
     }
 
     #[ORM\PrePersist]
@@ -62,8 +65,6 @@ class Project
             $this->creation_date = new \DateTime();
         }
     }
-
-    // --- GETTERS & SETTERS --- (Gardés tels quels)
 
     public function getId(): ?int
     {
@@ -166,6 +167,17 @@ class Project
     public function setStatus(?ProjectStatus $status): static
     {
         $this->status = $status;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
         return $this;
     }
 

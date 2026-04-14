@@ -2,14 +2,6 @@
 
 Welcome to the **CorpStarter Backend API**! This API powers the backend of the CorpStarter application, built using Symfony. Below, you'll find detailed documentation for all available routes, including their parameters, responses, and error codes.
 
-# Installation
-
-- PHP 8.5
-
-```
-composer install
-```
-
 ---
 
 ## Table of Contents

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: ProjectStatusRepository::class)]
-#[ORM\HasLifecycleCallbacks] // <--- TRÈS IMPORTANT : Permet d'utiliser le PrePersist
+#[ORM\HasLifecycleCallbacks]
 class ProjectStatus
 {
     #[ORM\Id]

@@ -2,139 +2,152 @@
 
 namespace App\Controller;
 
-use App\Entity\Users;
-use App\Repository\UsersRepository;
+use App\Service\AuthService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
-#[Route('/api/auth', name: 'api_auth_')]
+#[Route('/auth')]
 class AuthController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UsersRepository $usersRepository,
-        private UserPasswordHasherInterface $passwordHasher,
-        private ValidatorInterface $validator
+        private AuthService $authService,
     ) {}
 
-    #[Route('/signup', name: 'signup', methods: ['POST'])]
-    public function signup(Request $request): JsonResponse
+    /**
+     * Register a new user
+     * 
+     * @OA\Post(
+     *     path="/auth/register",
+     *     summary="Register a new user",
+     *     tags={"Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="User registration data",
+     *         @OA\JsonContent(
+     *             required={"username","last_name","first_name","password","email","user_type"},
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="last_name", type="string"),
+     *             @OA\Property(property="first_name", type="string"),
+     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="user_type", type="string", description="User or Admin")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="token", type="string"),
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Invalid email"),
+     *     @OA\Response(response=409, description="Email already exists")
+     * )
+     */
+    #[Route('/register', name: 'app_auth_register', methods: ['POST'])]
+    public function register(Request $request): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
         try {
-            $data = json_decode($request->getContent(), true);
+            $result = $this->authService->register(
+                $data['username'] ?? '',
+                $data['last_name'] ?? '',
+                $data['first_name'] ?? '',
+                $data['password'] ?? '',
+                $data['email'] ?? '',
+                $data['user_type'] ?? ''
+            );
 
-            // Validation des données
-            if (!isset($data['username'], $data['email'], $data['password'], $data['first_name'], $data['last_name'])) {
-                return new JsonResponse(['error' => 'Missing required fields'], 400);
-            }
-
-            // Vérifier si l'utilisateur existe déjà
-            $existingUser = $this->usersRepository->findOneBy(['email' => $data['email']]);
-            if ($existingUser) {
-                return new JsonResponse(['error' => 'User already exists'], 409);
-            }
-
-            // Créer un nouvel utilisateur
-            $user = new Users();
-            $user->setUsername($data['username']);
-            $user->setEmail($data['email']);
-            $user->setFirstName($data['first_name']);
-            $user->setLastName($data['last_name']);
-            $user->setPasswordHash($this->passwordHasher->hashPassword($user, $data['password']));
-            $user->setEmailConfirmed(false);
-            $user->setTermsAccepted($data['terms_accepted'] ?? false);
-            $user->setCreationDate(new \DateTime());
-
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-
-            return new JsonResponse([
-                'message' => 'User created successfully',
-                'user' => [
-                    'id' => $user->getId(),
-                    'username' => $user->getUsername(),
-                    'email' => $user->getEmail()
-                ]
-            ], 201);
-            // plus tard envoyer un mail de confirmation en se servant du token de connexion pour vérifier l'email
+            return $this->json($result, 201);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 500);
+            $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 400;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 
-    #[Route('/signin', name: 'signin', methods: ['POST'])]
-    public function signin(Request $request): JsonResponse
-    {
-        try {
-            $data = json_decode($request->getContent(), true);
-
-            if (!isset($data['email'], $data['password'])) {
-                return new JsonResponse(['error' => 'Email and password required'], 400);
-            }
-
-            $user = $this->usersRepository->findOneBy(['email' => $data['email']]);
-
-            if (!$user) {
-                return new JsonResponse(['error' => 'Invalid credentials'], 401);
-            }
-
-            if (!$this->passwordHasher->isPasswordValid($user, $data['password'])) {
-                return new JsonResponse(['error' => 'Invalid credentials'], 401);
-            }
-
-            if (!$user->isEmailConfirmed()) {
-                return new JsonResponse(['error' => 'Email not verified'], 403);
-            }
-
-            // Generate token and save it
-            $token = bin2hex(random_bytes(16));
-            $user->setConectionToken($token);
-            $user->setTokenDate(new \DateTime());
-            $this->entityManager->flush();
-
-            return new JsonResponse([
-                'message' => 'Sign in successful',
-                'user' => [
-                    'id' => $user->getId(),
-                    'username' => $user->getUsername(),
-                    'email' => $user->getEmail(),
-                    'first_name' => $user->getFirstName(),
-                    'last_name' => $user->getLastName(),
-                    'token' => $token
-                ]
-            ]);
-        } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    #[Route('/verify-email', name: 'verify_email', methods: ['POST'])]
+    /**
+     * Verify email with token
+     * 
+     * @OA\Patch(
+     *     path="/auth/verify-email",
+     *     summary="Verify user email",
+     *     tags={"Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"token"},
+     *             @OA\Property(property="token", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Email verified successfully"
+     *     ),
+     *     @OA\Response(response=400, description="Invalid token"),
+     *     @OA\Response(response=404, description="User not found")
+     * )
+     */
+    #[Route('/verify-email', name: 'app_auth_verify_email', methods: ['PATCH'])]
     public function verifyEmail(Request $request): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
         try {
-            $data = json_decode($request->getContent(), true);
-
-            if (!isset($data['user_id'])) {
-                return new JsonResponse(['error' => 'User ID required'], 400);
-            }
-
-            $user = $this->usersRepository->find($data['user_id']);
-
-            if (!$user) {
-                return new JsonResponse(['error' => 'User not found'], 404);
-            }
-
-            $user->setEmailConfirmed(true);
-            $this->entityManager->flush();
-
-            return new JsonResponse(['message' => 'Email verified successfully']);
+            $result = $this->authService->verifyEmail($data['token'] ?? '');
+            return $this->json($result, 200);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 500);
+            $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 400;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
+        }
+    }
+
+    /**
+     * Login user
+     * 
+     * @OA\Post(
+     *     path="/auth/login",
+     *     summary="Login user",
+     *     tags={"Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","password"},
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="password", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="token", type="string"),
+     *             @OA\Property(property="user_id", type="integer"),
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Wrong credentials")
+     * )
+     */
+    #[Route('/login', name: 'app_auth_login', methods: ['POST'])]
+    public function login(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        try {
+            $result = $this->authService->login(
+                $data['email'] ?? '',
+                $data['password'] ?? ''
+            );
+
+            return $this->json($result, 200);
+        } catch (\Exception $e) {
+            $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 400;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 }
