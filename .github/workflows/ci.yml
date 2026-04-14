@@ -20,12 +20,12 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4.1'
+          php-version: '8.3'
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql
           coverage: none
 
       - name: Install Composer Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Check Symfony Syntax (Lint)
         run: php bin/console lint:container
@@ -83,7 +83,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4.1'
+          php-version: '8.3'
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql
 
       - name: Install Composer Dependencies
