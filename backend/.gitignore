@@ -1,0 +1,56 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+/.web-server-pid
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
+
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###
+
+###> IDE & Editors ###
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.classpath
+*.sublime-project
+*.sublime-workspace
+###< IDE & Editors ###
+
+###> OS Specific ###
+.DS_Store
+Thumbs.db
+desktop.ini
+###< OS Specific ###
+
+###> Cache & Temp ###
+.cache/
+tmp/
+*.tmp
+.phpstan.result.cache
+###< Cache & Temp ###
+
+###> Node Modules (if exists) ###
+node_modules/
+package-lock.json
+yarn.lock
+###< Node Modules ###
+
+###> Docker compose overrides ###
+docker-compose.override.yaml
+.dockerignore
+###< Docker compose overrides ###
