@@ -17,21 +17,22 @@ class ProjectController extends AbstractController
     public function __construct(
         private ProjectService $projectService,
         private AuthService $authService,
-    ) {}
+    ) {
+    }
 
     private function getAuthenticatedUser(Request $request)
     {
         $token = null;
-        
+
         // Try to get token from query string first (for GET requests)
         $token = $request->query->get('token');
-        
+
         // If not in query string, try from JSON body (for POST/PUT requests)
         if (!$token && $request->getContent()) {
             $data = json_decode($request->getContent(), true);
             $token = $data['token'] ?? null;
         }
-        
+
         if (!$token) {
             throw new UnauthorizedHttpException('Bearer', 'Not logged in - token required in body or query');
         }
@@ -218,6 +219,32 @@ class ProjectController extends AbstractController
         try {
             $user = $this->getAuthenticatedUser($request);
             $result = $this->projectService->joinProject($id, $user);
+            return $this->json($result, 200);
+        } catch (\Exception $e) {
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
+        }
+    }
+
+    #[Route('/{id}/leave', name: 'app_project_leave', methods: ['POST'])]
+    public function leave(int $id, Request $request): JsonResponse
+    {
+        try {
+            $user = $this->getAuthenticatedUser($request);
+            $result = $this->projectService->leaveProject($id, $user);
+            return $this->json($result, 200);
+        } catch (\Exception $e) {
+            $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
+        }
+    }
+
+    #[Route('/{id}/joined-users', name: 'app_project_get_joined_users', methods: ['GET'])]
+    public function getJoinedUsers(int $id, Request $request): JsonResponse
+    {
+        try {
+            $this->getAuthenticatedUser($request); // Just to check authentication
+            $result = $this->projectService->getJoinedUsers($id);
             return $this->json($result, 200);
         } catch (\Exception $e) {
             $statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : 500;

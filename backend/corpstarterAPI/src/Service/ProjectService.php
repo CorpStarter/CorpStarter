@@ -188,6 +188,28 @@ class ProjectService
         return ['message' => 'Joined project successfully'];
     }
 
+    public function getJoinedUsers(int $projectId): array
+    {
+        $project = $this->projectRepository->find($projectId);
+
+        if (!$project) {
+            throw new NotFoundHttpException('Project not found');
+        }
+
+        $attendees = $project->getAttendees();
+
+        return [
+            'total' => count($attendees),
+            'users' => array_map(fn(Users $u) => [
+                'id' => $u->getId(),
+                'username' => $u->getUsername(),
+                'first_name' => $u->getFirstName(),
+                'last_name' => $u->getLastName(),
+                'email' => $u->getEmail(),
+            ], $attendees->toArray())
+        ];
+    }
+
     private function projectToArray(Project $project): array
     {
         return [
@@ -202,4 +224,6 @@ class ProjectService
             'approver' => $project->getApprover()?->getUsername(),
         ];
     }
+
+    
 }
