@@ -1,9 +1,17 @@
 node_modules/
+
+# Symfony - backend/corpstarterAPI
 backend/corpstarterAPI/var/
-.env.local
-.env.local.php
-.env.*.local
-config/secrets/prod/prod.decrypt.private.php
-public/bundles/
-var/
-vendor/
+backend/corpstarterAPI/vendor/
+backend/corpstarterAPI/.env.local
+backend/corpstarterAPI/.env.*.local
+backend/corpstarterAPI/.symfony.lock
+backend/corpstarterAPI/.phpunit.result.cache
+backend/corpstarterAPI/.web-server-pid
+backend/corpstarterAPI/.DS_Store
+backend/corpstarterAPI/.idea/
+backend/corpstarterAPI/.vscode/
+backend/corpstarterAPI/*.swp
+backend/corpstarterAPI/*.swo
+backend/corpstarterAPI/*~
+backend/corpstarterAPI/public/bundles/

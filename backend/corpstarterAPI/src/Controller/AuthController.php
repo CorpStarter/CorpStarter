@@ -65,7 +65,8 @@ class AuthController extends AbstractController
 
             return $this->json($result, 201);
         } catch (\Exception $e) {
-            return $this->json(['error' => $e->getMessage()], $e->getCode() ?: 400);
+            $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 400;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 
@@ -100,7 +101,8 @@ class AuthController extends AbstractController
             $result = $this->authService->verifyEmail($data['token'] ?? '');
             return $this->json($result, 200);
         } catch (\Exception $e) {
-            return $this->json(['error' => $e->getMessage()], $e->getCode() ?: 400);
+            $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 400;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 
@@ -144,7 +146,8 @@ class AuthController extends AbstractController
 
             return $this->json($result, 200);
         } catch (\Exception $e) {
-            return $this->json(['error' => $e->getMessage()], $e->getCode() ?: 400);
+            $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 400;
+            return $this->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 }
