@@ -22,9 +22,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await apiClient.post('/auth/login', { email, password });
-      const { token, user_id, balance = 500000 } = response.data;
+      const { token, user_id, role, balance = 500000 } = response.data;
       
-      const role = email.includes('direction') ? 'Admin' : 'User';
+      //const role = email.includes('direction') ? 'Admin' : 'User';
       
       localStorage.setItem('token', token);
       localStorage.setItem('userId', user_id);
