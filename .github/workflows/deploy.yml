@@ -1,0 +1,36 @@
+name: Build & Push to Docker Hub
+
+on:
+  push:
+    branches:
+      - main # 
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: 🔑 Connexion à Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: ⚙️ Build et Push du Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend/corpstarterAPI
+          file: ./backend/docker/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/corpstarter-backend:latest
+
+      - name: 🌐 Build et Push du Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/corpstarter-frontend:latest
