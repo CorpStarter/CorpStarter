@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://127.0.0.1:8000', 
+  baseURL: 'http://34.163.104.7:8000', 
   //baseURL: 'http://corpstarterapi/', 
   headers: {
     'Content-Type': 'application/json',
