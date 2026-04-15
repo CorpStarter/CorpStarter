@@ -3,6 +3,16 @@
 Bienvenue dans la documentation officielle de notre infrastructure. 
 Pour simplifier le développement et éviter les bugs, nous utilisons Docker avec une architecture **Monorepo** (le Front et le Back sont dans le même dossier).
 
+## Accès au site de démo : 
+URL : http://34.163.104.7/
+
+Identifiant Utilisateur : 
+c.chateigner@corpstarter.com | 
+ùSer5439832
+
+Identifiant Admin : 
+d.durant@corpstarter.com | 
+@dmin095674
 
 ## 🛠️ Étape 1 : Installation des prérequis
 Vous n'avez **PAS** besoin d'installer PHP, Node.js ou MySQL sur votre ordinateur. Docker s'occupe de tout. Vous avez juste besoin de :
