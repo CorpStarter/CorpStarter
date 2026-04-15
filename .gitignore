@@ -3,6 +3,8 @@ node_modules/
 # Symfony - backend/corpstarterAPI
 backend/corpstarterAPI/var/
 backend/corpstarterAPI/vendor/
+backend/corpstarterAPI/.env
+backend/corpstarterAPI/.env.dev
 backend/corpstarterAPI/.env.local
 backend/corpstarterAPI/.env.*.local
 backend/corpstarterAPI/.symfony.lock

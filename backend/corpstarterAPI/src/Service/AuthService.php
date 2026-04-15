@@ -52,7 +52,7 @@ class AuthService
         $user->setFirstName($firstName);
         $user->setEmail($email);
         $user->setPasswordHash(password_hash($password, PASSWORD_BCRYPT));
-        $user->setEmailConfirmed(false);
+        $user->setEmailConfirmed(true); // en attendant un serveur de mail
         $user->setTermsAccepted(true);
         $user->setCreationDate(new \DateTime());
         $user->setUserType($userType);
@@ -117,6 +117,8 @@ class AuthService
             'token' => $token,
             'user_id' => $user->getId(),
             'role' => $user->getUserType()->getName(),
+            'nom' => $user->getLastName(),
+            'prenom' => $user->getFirstName(),
             'message' => 'Logged in successfully'
         ];
     }

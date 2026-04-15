@@ -1,97 +1,121 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getProjects, deleteProject } from '../api/projectService';
-import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, ArrowLeft, User, Clock, CheckCircle, XCircle, Pencil, Trash2 } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
+import { motion } from 'framer-motion';
+import { ArrowLeft, User, Mail, Briefcase, ShieldCheck, Award, LogOut } from 'lucide-react';
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery({ queryKey: ['projects'], queryFn: getProjects });
 
-  const deleteMutation = useMutation({
-    mutationFn: (id) => deleteProject(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['projects']);
-      toast.success('Projet supprimé définitivement.');
-    },
-    onError: () => toast.error("Le backend ne permet pas encore la suppression (404).")
-  });
-
-  const myProjects = data?.projects?.filter(p => 
-    parseInt(p.requester_id) === user?.id || p.requester === 'maryam'
-  ) || [];
-
-  const handleDelete = (id) => {
-    if (window.confirm("Voulez-vous vraiment supprimer cette idée ? Cette action est irréversible.")) {
-      deleteMutation.mutate(id);
-    }
+  // Ce sont des données par défaut en attendant que le backend renvoie le vrai nom lors du login
+  const profileData = {
+    firstName: user?.first_name || "Employé",
+    lastName: user?.last_name || "CorpStarter",
+    username: user?.username || "utilisateur_pro",
+    email: user?.email || "employe@entreprise.com",
+    role: user?.role === 'Admin' ? "Direction & Management" : "Innovateur (Employé)",
+    joinDate: "Avril 2026"
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-300 py-10 px-4">
-      <div className="max-w-4xl mx-auto">
-        <button onClick={() => navigate('/dashboard')} className="flex items-center text-slate-500 hover:text-white mb-10 transition-colors"><ArrowLeft className="mr-2" /> Retour au Lab</button>
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-300 selection:bg-indigo-500/30 py-12 px-4 sm:px-6">
+      <div className="max-w-3xl mx-auto">
         
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 mb-10 flex items-center justify-between shadow-xl shadow-black/30">
-          <div className="flex items-center gap-6">
-            <div className="bg-slate-800 p-5 rounded-full border border-slate-700"><User className="h-12 w-12 text-blue-400" /></div>
-            <div>
-              <h2 className="text-3xl font-black text-white tracking-tight">Espace Innovateur</h2>
-              <p className="text-slate-500">Compte certifié de Maryam</p>
-            </div>
+        <button onClick={() => navigate(user?.role === 'Admin' ? '/admin' : '/dashboard')} className="flex items-center text-slate-500 hover:text-indigo-400 mb-8 transition-colors font-bold text-sm uppercase tracking-wider">
+          <ArrowLeft className="mr-2 h-4 w-4" /> Retour au tableau de bord
+        </button>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl shadow-black relative"
+        >
+          {/* Header de profil / Bannière */}
+          <div className="h-32 bg-gradient-to-r from-indigo-600 to-blue-600 relative overflow-hidden">
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           </div>
-        </div>
 
-        <h3 className="text-xl font-bold text-white mb-6">Mes idées soumises ({myProjects.length})</h3>
-        
-        {isLoading ? <Loader2 className="animate-spin mx-auto h-8 w-8 text-blue-500" /> : (
-          <div className="space-y-4">
-            {myProjects.map(project => (
-              <div key={project.id} className="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-6 group hover:border-slate-700 transition-all">
-                <div className="flex-1">
-                  <h4 className="font-bold text-white text-lg mb-1">{project.name}</h4>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{project.requested_budget} € demandés</span>
-                    <span className="h-1 w-1 bg-slate-700 rounded-full"></span>
-                    <span className={`text-xs font-bold uppercase tracking-widest ${project.status === 'Approved' ? 'text-emerald-500' : project.status === 'Rejected' ? 'text-rose-500' : 'text-blue-500'}`}>
-                      {project.status || 'En attente'}
-                    </span>
-                  </div>
+          <div className="px-8 pb-8 relative">
+            {/* Avatar qui chevauche la bannière */}
+            <div className="flex justify-between items-end -mt-12 mb-6">
+              <div className="h-24 w-24 rounded-2xl bg-slate-800 border-4 border-slate-900 flex items-center justify-center shadow-xl">
+                <span className="text-3xl font-black text-indigo-400">
+                  {profileData.firstName[0]}{profileData.lastName[0]}
+                </span>
+              </div>
+              
+              {user?.role === 'Admin' && (
+                <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-xl flex items-center gap-2 font-bold text-sm shadow-inner mb-2">
+                  <ShieldCheck className="h-4 w-4" /> Compte Certifié
                 </div>
+              )}
+            </div>
 
-                {/* Actions : Modifier / Supprimer (Uniquement si en attente) */}
-                <div className="flex items-center gap-2">
-                  {(project.status === 'Pending' || !project.status) && (
-                    <>
-                      <button 
-                        onClick={() => navigate(`/edit-project/${project.id}`)}
-                        className="p-3 bg-slate-950 text-slate-400 hover:text-blue-400 border border-slate-800 rounded-xl transition-all"
-                        title="Modifier"
-                      >
-                        <Pencil className="h-5 w-5" />
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(project.id)}
-                        className="p-3 bg-slate-950 text-slate-400 hover:text-rose-500 border border-slate-800 rounded-xl transition-all"
-                        title="Supprimer"
-                      >
-                        <Trash2 className="h-5 w-5" />
-                      </button>
-                    </>
-                  )}
-                  <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                    {project.status === 'Approved' ? <CheckCircle className="text-emerald-500" /> : 
-                     project.status === 'Rejected' ? <XCircle className="text-rose-500" /> : 
-                     <Clock className="text-blue-500" />}
-                  </div>
+            {/* Infos principales */}
+            <div className="mb-10">
+              <h2 className="text-3xl font-black text-white flex items-center gap-3">
+                {profileData.firstName} {profileData.lastName}
+              </h2>
+              <p className="text-indigo-400 font-medium flex items-center gap-2 mt-1">
+                @{profileData.username}
+              </p>
+            </div>
+
+            {/* Grille de détails */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+              <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-800/50 flex items-center gap-4">
+                <div className="bg-indigo-500/10 p-3 rounded-xl text-indigo-400">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email pro</p>
+                  <p className="text-sm text-slate-200 font-medium">{profileData.email}</p>
                 </div>
               </div>
-            ))}
+
+              <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-800/50 flex items-center gap-4">
+                <div className="bg-indigo-500/10 p-3 rounded-xl text-indigo-400">
+                  <Briefcase className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Poste & Rôle</p>
+                  <p className="text-sm text-slate-200 font-medium">{profileData.role}</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-800/50 flex items-center gap-4">
+                <div className="bg-indigo-500/10 p-3 rounded-xl text-indigo-400">
+                  <User className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">ID Interne</p>
+                  <p className="text-sm text-slate-200 font-medium">CS-{user?.id || "0000"}</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-950/50 p-5 rounded-2xl border border-slate-800/50 flex items-center gap-4">
+                <div className="bg-indigo-500/10 p-3 rounded-xl text-indigo-400">
+                  <Award className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Ancienneté</p>
+                  <p className="text-sm text-slate-200 font-medium">Membre depuis {profileData.joinDate}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="border-t border-slate-800 pt-8 flex justify-end">
+              <button 
+                onClick={logout}
+                className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/20 hover:border-rose-500/50 px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all"
+              >
+                <LogOut className="h-5 w-5" /> Déconnexion sécurisée
+              </button>
+            </div>
+
           </div>
-        )}
+        </motion.div>
       </div>
     </div>
   );
