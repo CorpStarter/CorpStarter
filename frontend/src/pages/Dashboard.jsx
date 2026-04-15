@@ -36,20 +36,15 @@ export default function Dashboard() {
     onError: (err) => toast.error(err.response?.data?.error || "Impossible de rejoindre ce projet.")
   });
 
-  // --- FILTRES ET TRI ---
   const displayedProjects = useMemo(() => {
     let projects = data?.projects || [];
 
-    // 1. Tri par date (du plus récent au plus ancien)
     projects.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date));
 
-    // 2. Filtre par Onglet
     if (activeTab === 'hall') {
       projects = projects.filter(p => p.status === 'Approved' || p.status === 'In Progress' || p.status_id === 2);
     } 
-    // Pour 'lab', on garde tous les projets comme demandé !
 
-    // 3. Filtre par Budget
     if (budgetFilter === 'low') projects = projects.filter(p => parseFloat(p.requested_budget) < 500);
     if (budgetFilter === 'mid') projects = projects.filter(p => parseFloat(p.requested_budget) >= 500 && parseFloat(p.requested_budget) <= 2000);
     if (budgetFilter === 'high') projects = projects.filter(p => parseFloat(p.requested_budget) > 2000);
@@ -66,7 +61,6 @@ export default function Dashboard() {
     toast.success('Commentaire ajouté !');
   };
 
-  // --- ANIMATIONS FRAMER MOTION ---
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {

@@ -13,8 +13,18 @@ export const AuthProvider = ({ children }) => {
     const role = localStorage.getItem('role');
     const balance = localStorage.getItem('balance');
     
+    const nom = localStorage.getItem('nom');       
+    const prenom = localStorage.getItem('prenom'); 
+    
     if (token && id) {
-      setUser({ id: parseInt(id), token, role, balance: parseFloat(balance || 0) });
+      setUser({ 
+        id: parseInt(id), 
+        token, 
+        role, 
+        nom,       
+        prenom,    
+        balance: parseFloat(balance || 0) 
+      });
     }
     setLoading(false);
   }, []);
@@ -31,14 +41,19 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await apiClient.post('/auth/login', { email, password });
-      const { token, user_id, role, balance = 500000 } = response.data;
+      
+      const { token, user_id, role, nom, prenom, balance = 500000 } = response.data;
       
       localStorage.setItem('token', token);
       localStorage.setItem('userId', user_id);
       localStorage.setItem('role', role);
       localStorage.setItem('balance', balance);
       
-      setUser({ id: parseInt(user_id), token, role, balance });
+      if (nom) localStorage.setItem('nom', nom);       
+      if (prenom) localStorage.setItem('prenom', prenom); 
+      localStorage.setItem('email', email);
+      
+      setUser({ id: parseInt(user_id), token, role, nom, prenom, email, balance });
       return { success: true };
     } catch (error) {
       return { success: false, error: error.response?.data?.error || "Erreur de connexion" };

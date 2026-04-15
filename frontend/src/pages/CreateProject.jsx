@@ -60,7 +60,6 @@ export default function CreateProject() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl shadow-black/50 relative overflow-hidden"
         >
-          {/* Décoration d'arrière plan */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
 
           <h2 className="text-4xl font-black text-white mb-3">Nouvelle Idée</h2>
@@ -68,7 +67,6 @@ export default function CreateProject() {
           
           <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
             
-            {/* Zone d'upload d'image repensée */}
             <div>
               <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Cover du projet</label>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -86,13 +84,11 @@ export default function CreateProject() {
                       <span className="text-[10px] uppercase font-bold">Upload</span>
                     </div>
                   )}
-                  {/* Input caché qui recouvre la zone */}
                   <input type="file" accept="image/*" onChange={handleImageChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
                 </div>
                 <div className="flex-1">
                   <h4 className="text-white font-bold text-sm mb-1">Illustration attrayante</h4>
                   <p className="text-sm text-slate-500 mb-3 leading-relaxed">Une image vaut mille mots. Choisissez une image au format paysage (JPG, PNG) qui représente bien votre idée.</p>
-                  {/* Bouton de secours si on ne veut pas cliquer sur le carré */}
                   <div className="relative inline-block">
                     <button type="button" className="bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold py-2 px-4 rounded-xl transition-colors border border-slate-700 hover:border-slate-600">
                       Parcourir les fichiers

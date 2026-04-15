@@ -26,7 +26,6 @@ const AdminRoute = ({ children }) => {
   return children;
 };
 
-// --- NOUVEAU : Wrapper d'animation de page ---
 const PageWrapper = ({ children }) => (
   <motion.div
     initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
@@ -38,7 +37,6 @@ const PageWrapper = ({ children }) => (
   </motion.div>
 );
 
-// --- Séparation des routes pour utiliser useLocation ---
 const AnimatedRoutes = () => {
   const location = useLocation();
   const { user } = useAuth();
@@ -49,13 +47,11 @@ const AnimatedRoutes = () => {
         <Route path="/login" element={<PageWrapper>{user ? (user.role === 'Admin' ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />) : <Login />}</PageWrapper>} />
         <Route path="/register" element={<PageWrapper>{user ? <Navigate to="/dashboard" /> : <Register />}</PageWrapper>} />
         
-        {/* FRONT EMPLOYÉ */}
         <Route path="/dashboard" element={<ProtectedRoute><PageWrapper><Dashboard /></PageWrapper></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><PageWrapper><Profile /></PageWrapper></ProtectedRoute>} />
         <Route path="/create-project" element={<ProtectedRoute><PageWrapper><CreateProject /></PageWrapper></ProtectedRoute>} />
         <Route path="/edit-project/:id" element={<ProtectedRoute><PageWrapper><EditProject /></PageWrapper></ProtectedRoute>} />
         
-        {/* FRONT DIRECTION */}
         <Route path="/admin" element={<AdminRoute><PageWrapper><AdminDashboard /></PageWrapper></AdminRoute>} />
         
         <Route path="*" element={<Navigate to="/login" />} />

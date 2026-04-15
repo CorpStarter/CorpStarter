@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion'; // <-- CORRIGÉ : AnimatePresence ajouté ici
+import { motion, AnimatePresence } from 'framer-motion'; 
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, Loader2, LayoutGrid } from 'lucide-react';
 

@@ -45,21 +45,17 @@ export default function AdminDashboard() {
     }
   });
 
-  // --- FILTRES ET TRI ---
   const displayedProjects = useMemo(() => {
     let projects = data?.projects || [];
     
-    // Tri par date décroissante (plus récent en premier)
     projects.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date));
 
-    // Filtre d'onglet
     if (activeTab === 'pending') {
       projects = projects.filter(p => p.status === 'Pending' || p.status_id === 1);
     } else {
       projects = projects.filter(p => p.status === 'Approved' || p.status === 'In Progress' || p.status_id === 2);
     }
 
-    // Filtre de prix
     if (budgetFilter === 'low') projects = projects.filter(p => parseFloat(p.requested_budget) < 500);
     if (budgetFilter === 'mid') projects = projects.filter(p => parseFloat(p.requested_budget) >= 500 && parseFloat(p.requested_budget) <= 2000);
     if (budgetFilter === 'high') projects = projects.filter(p => parseFloat(p.requested_budget) > 2000);
@@ -67,7 +63,6 @@ export default function AdminDashboard() {
     return projects;
   }, [data, activeTab, budgetFilter]);
 
-  // --- ANIMATIONS ---
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -270,7 +265,6 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                {/* Colonne Droite : Soutiens (Style Discord) */}
                 <div className="w-full md:w-80 bg-slate-950/30 p-8 overflow-y-auto flex flex-col">
                   <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
                     <div className="h-2 w-2 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
