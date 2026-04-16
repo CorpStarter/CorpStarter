@@ -3,7 +3,6 @@ import { Toaster } from 'react-hot-toast';
 import { useAuth } from './context/AuthContext';
 import { AnimatePresence, motion } from 'framer-motion';
 
-// --- Pages ---
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -44,12 +43,14 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+        
         <Route path="/login" element={<PageWrapper>{user ? (user.role === 'Admin' ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />) : <Login />}</PageWrapper>} />
         <Route path="/register" element={<PageWrapper>{user ? <Navigate to="/dashboard" /> : <Register />}</PageWrapper>} />
         
         <Route path="/dashboard" element={<ProtectedRoute><PageWrapper><Dashboard /></PageWrapper></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><PageWrapper><Profile /></PageWrapper></ProtectedRoute>} />
         <Route path="/create-project" element={<ProtectedRoute><PageWrapper><CreateProject /></PageWrapper></ProtectedRoute>} />
+        
         <Route path="/edit-project/:id" element={<ProtectedRoute><PageWrapper><EditProject /></PageWrapper></ProtectedRoute>} />
         
         <Route path="/admin" element={<AdminRoute><PageWrapper><AdminDashboard /></PageWrapper></AdminRoute>} />

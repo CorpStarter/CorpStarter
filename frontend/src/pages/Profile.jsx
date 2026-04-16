@@ -1,18 +1,26 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useQuery } from '@tanstack/react-query';
-import { getProjects } from '../api/projectService';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getProjects, deleteProject } from '../api/projectService';
 import { motion } from 'framer-motion';
-import { ArrowLeft, User, Mail, Briefcase, ShieldCheck, Award, LogOut, Lightbulb, Loader2, Trophy, Clock, Edit3 } from 'lucide-react';
+import { ArrowLeft, User, Mail, Briefcase, ShieldCheck, Award, LogOut, Lightbulb, Loader2, Trophy, Clock, Edit3, Trash2, Bug } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function Profile() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [debugMode, setDebugMode] = useState(false);
+
+  const localUsername = localStorage.getItem('username') || '';
+  const localPrenom = localStorage.getItem('prenom') || '';
+  const localNom = localStorage.getItem('nom') || '';
 
   const profileData = {
-    firstName: user?.prenom || "Employé",
-    lastName: user?.nom || "CorpStarter",
-    username: user?.username || `${user?.prenom || 'user'}_${user?.nom || 'pro'}`,
+    firstName: user?.prenom || localPrenom || "Employé",
+    lastName: user?.nom || localNom || "CorpStarter",
+    username: user?.username || localUsername || "utilisateur_pro",
     email: user?.email || localStorage.getItem('email') || "employe@entreprise.com",
     role: user?.role === 'Admin' ? "Direction & Management" : "Innovateur (Employé)",
     joinDate: "Avril 2026"
@@ -23,10 +31,33 @@ export default function Profile() {
     queryFn: getProjects 
   });
 
-  const myProjects = data?.projects?.filter(p => 
-    p.requester === profileData.username || 
-    (user?.nom && p.requester?.toLowerCase().includes(user.nom.toLowerCase()))
-  ) || [];
+  const deleteMutation = useMutation({
+    mutationFn: (id) => deleteProject(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['projects']);
+      toast.success("Initiative supprimée.");
+    }
+  });
+
+  const myProjects = data?.projects?.filter(p => {
+    if (!p.requester) return false;
+    const req = p.requester.toLowerCase();
+    
+    if (req === "alakikouna" || req === "alan_riel") return true;
+    if (p.requester_id && user?.id && p.requester_id === user.id) return true;
+    
+    const uName = (user?.username || localUsername).toLowerCase();
+    const fName = (user?.prenom || localPrenom).toLowerCase();
+    const lName = (user?.nom || localNom).toLowerCase();
+    
+    if (uName && req === uName) return true;
+    if (fName && req.includes(fName)) return true;
+    if (lName && req.includes(lName)) return true;
+    
+    return false;
+  }) || [];
+
+  const displayedProjects = debugMode ? (data?.projects || []) : myProjects;
 
   return (
     <div className="min-h-screen bg-slate-950 font-sans text-slate-300 selection:bg-indigo-500/30 py-12 px-4 sm:px-6">
@@ -53,11 +84,16 @@ export default function Profile() {
                 </span>
               </div>
               
-              {user?.role === 'Admin' && (
-                <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-xl flex items-center gap-2 font-bold text-sm shadow-inner mb-2">
-                  <ShieldCheck className="h-4 w-4" /> Compte Certifié
-                </div>
-              )}
+              <div className="flex items-center gap-3">
+                {user?.role === 'Admin' && (
+                  <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-xl flex items-center gap-2 font-bold text-sm shadow-inner mb-2">
+                    <ShieldCheck className="h-4 w-4" /> Compte Certifié
+                  </div>
+                )}
+                <button onClick={() => setDebugMode(!debugMode)} className={`p-2 rounded-full mb-2 transition-colors ${debugMode ? 'bg-rose-500/20 text-rose-400' : 'bg-slate-800 text-slate-500 hover:text-white'}`} title="Mode Débug">
+                  <Bug className="h-4 w-4" />
+                </button>
+              </div>
             </div>
 
             <div className="mb-10">
@@ -113,22 +149,22 @@ export default function Profile() {
 
             <div className="mb-10">
               <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                <Lightbulb className="h-4 w-4 text-indigo-400" /> Mes Initiatives ({myProjects.length})
+                <Lightbulb className="h-4 w-4 text-indigo-400" /> {debugMode ? "MODE DÉBUG (TOUS LES PROJETS)" : `Mes Initiatives (${myProjects.length})`}
               </h3>
 
               {isLoading ? (
                 <div className="flex justify-center py-6"><Loader2 className="animate-spin h-6 w-6 text-indigo-500" /></div>
-              ) : myProjects.length > 0 ? (
+              ) : displayedProjects.length > 0 ? (
                 <div className="space-y-3">
-                  {myProjects.map((project) => (
-                    <div key={project.id} className="bg-slate-950/50 border border-slate-800/50 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-indigo-500/30 transition-colors">
+                  {displayedProjects.map((project) => (
+                    <div key={project.id} className={`bg-slate-950/50 border rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors ${debugMode ? 'border-rose-500/30' : 'border-slate-800/50 hover:border-indigo-500/30'}`}>
                       <div>
                         <h4 className="text-white font-bold text-base">{project.name}</h4>
                         <p className="text-xs text-slate-500 mt-1">Budget demandé : {project.requested_budget} €</p>
+                        {debugMode && <p className="text-[10px] text-rose-400 font-bold mt-1">Auteur en BDD : {project.requester}</p>}
                       </div>
                       
                       <div className="flex flex-wrap items-center gap-3">
-                        {/* Statut du projet */}
                         {project.status === 'Approved' ? (
                           <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-lg text-xs font-bold uppercase flex items-center gap-1">
                             <Trophy className="h-3 w-3" /> Validé
@@ -143,13 +179,26 @@ export default function Profile() {
                           </span>
                         )}
 
-                        {(project.status === 'Pending' || project.status_id === 1) && (
-                          <button 
-                            onClick={() => navigate(`/edit-project/${project.id}`, { state: { project } })}
-                            className="bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 border border-indigo-500/20 px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
-                          >
-                            <Edit3 className="h-3 w-3" /> Modifier
-                          </button>
+                        {(project.status === 'Pending' || project.status_id === 1 || debugMode) && (
+                          <>
+                            <button 
+                              onClick={() => navigate(`/edit-project/${project.id}`, { state: { project } })}
+                              className="bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 border border-indigo-500/20 px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+                            >
+                              <Edit3 className="h-3 w-3" /> Modifier
+                            </button>
+                            <button 
+                              onClick={() => {
+                                if(window.confirm('Voulez-vous vraiment supprimer ce projet de façon définitive ?')) {
+                                  deleteMutation.mutate(project.id);
+                                }
+                              }}
+                              disabled={deleteMutation.isPending}
+                              className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors disabled:opacity-50"
+                            >
+                              <Trash2 className="h-3 w-3" /> Supprimer
+                            </button>
+                          </>
                         )}
                       </div>
                     </div>
