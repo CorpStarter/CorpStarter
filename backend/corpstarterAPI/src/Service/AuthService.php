@@ -119,6 +119,7 @@ class AuthService
             'role' => $user->getUserType()->getName(),
             'nom' => $user->getLastName(),
             'prenom' => $user->getFirstName(),
+            'username' => $user->getUsername(),
             'message' => 'Logged in successfully'
         ];
     }

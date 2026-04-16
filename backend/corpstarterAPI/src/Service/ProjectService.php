@@ -258,6 +258,7 @@ class ProjectService
             'requester' => $project->getRequester()?->getUsername(),
             'approver' => $project->getApprover()?->getUsername(),
             'attendees_count' => count($project->getAttendees()), 
+            'requester_id' => $project->getRequester()?->getId(),
         ];
     }
 
